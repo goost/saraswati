@@ -1,0 +1,99 @@
+\documentclass[a4paper, 12pt
+%%%%%%%%%%% Comment out for final version
+, draft
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+]{scrartcl} %scrreprt
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage[margin=3.0cm]{geometry}
+\usepackage{xcolor}
+\usepackage{csquotes}
+\usepackage{pdfpages}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{ifdraft}
+
+\newif\ifen
+\newif\ifde
+\newcommand{\en}[1]{\ifen#1\fi}
+\newcommand{\de}[1]{\ifde#1\fi}
+
+
+%%%%%%%%%%% Change the strings here %%%%%%%%%%%
+%Choose document language, leave only _one_ uncommented
+%\detrue
+\entrue
+% Add project description in file 50_desc.tex
+\newcommand\miStudentName{Gleb Ostrowski}
+\newcommand\miStudentNumber{9030830}
+\newcommand\miSemester{Summer 2020}
+\newcommand\miSupervisor{Prof. Martin Leischner}
+\newcommand\miProjectTitle{ Proof-of-concept modernisation of two practical
+            computer networks exercises using
+            state-of-the-art technology like virtualization and containerization}
+\newcommand\miRequirements{Knowledge of orchestration and automatization of multi-server environemnts;
+            basic understanding of students needs; basic teaching experience; programming knowledge}
+\newcommand\miResources{Working space in netlab}
+\newcommand\miLiterature{TODO}
+\newcommand\miResults{Two prototypes of modernised exercises}
+\newcommand\miTimeTable{%
+% Format for each line (note the '&'s and the '\\\hline%' at the end!):
+% DATE & DESCRIPTION & MILESTONE \\\hline%
+            2020-02-12 &
+            -  &
+            Project start  \\\hline%
+            2020-02-21 &
+            Definition of the project &
+            Signatures \\\hline%
+            2020-02-23 &
+            Research/ What tech exist? &
+            - \\\hline
+            2020-03-09 &
+            MVP of the first module &
+            Milestone I \\\hline%
+            2020-04-08 &
+            Prototypes funktionell komplett &
+            Milestone II\\\hline%
+            2020-04-15 &
+            Prototypen debt free &
+            Milestone III \\\hline%
+            2020-04-30 &
+            Bericht vollständig &
+            Milestone IV \\\hline%
+            According to schedule &
+            Public talk, delivery of report &
+            Project completion \\\hline%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifen\usepackage[ngerman,UKenglish]{babel}\fi
+\ifde\usepackage[UKenglish,ngerman]{babel}\fi
+
+
+\AtBeginDocument{%
+   \hypersetup{%
+        pdfcreator = \miStudentName{}%
+    }%
+}
+
+\begin{document}
+\pagestyle{empty}
+\includegraphics[width=0.4\textwidth]{imgs/hbrs_logo.png}\\\\
+\textbf{\Huge \ifdraft{\textcolor{red}{DRAFT, NOT SPELLCHECKED}\\}{} \de{Projekt im Studiengang MI}\en{Project in major MI}}
+
+\input{10_facts}
+\input{20_about}
+%\input{30_timetable}
+\input{35_timetable}
+\input{40_sigs}
+\clearpage
+\pagestyle{headings}
+\setcounter{page}{1}
+\input{50_desc}
+
+
+
+\end{document}
