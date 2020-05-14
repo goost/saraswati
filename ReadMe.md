@@ -1,6 +1,6 @@
 # Project Saraswati
 
-Quest learning editor for non-programmers
+Computer Networks' learning modules.
 
 ## Table of Contents
 
@@ -12,50 +12,45 @@ Quest learning editor for non-programmers
 
 ## Todos
 
-- [ ] Create Git
+- [x] Create Git
 - [ ] Create Project Goals
 - [ ] Create Masterplan
-- [ ] Create Plan according to Book
-  - [ ] Proka Book
-  - [ ] Willpower Book
 - [ ] Inform professor
-- [ ] Decide on Engine
-  - [ ] Tut Unreal
-  - [ ] Tut Unity
-  - [ ] Check features of engine against goal
-    - [ ] Check Unreal
-    - [ ] Check Unity
-
+- [ ] Decide on technology
+  - [ ] Which learning approach to use
+    - [ ] Problem-based learning?
+  - [ ] How to encapsule module
+    - [ ] Containernization
+    - [ ] Web-Accessable?
+  
 ## Goals
 
 ## Masterplan
 
 - 360 hours $\approx$ 720 pomodoros (p)
 - Deadline: 28.02.2020 (W9)
-- Start: 25.11.2019 (W48)
-- &ensp;$\Rightarrow$ ~13 weeks ~60p per Week
-- Workdays: Wednesday, Thursday, Friday and Sunday
+- Start: 18.05.2020 (W48)
+- &ensp;$\Rightarrow$ ~15 weeks ~48p per Week
+- Workdays: Wednesday, Tuesday, Friday and Sunday
 
-| Week |                Task                | Status   |
-| ---: | :--------------------------------: | :------- |
-|    1 |   Analyses, Research & Proposal    | planning |
-|    2 |         Engine Testdrives          | planning |
-|    3 | Proposal Update (Milestones) & MVP | planning |
-|    4 |            Milestone 1             | planning |
-|    5 |               Buffer               | planning |
-|    6 |            Milestone 2             | planning |
-|    7 |               Buffer               | planning |
-|    8 |            Milestone 3             | planning |
-|    9 |               Buffer               | planning |
-|   10 |            Milestone 4             | planning |
-|   11 |               Buffer               | planning |
-|   12 |           Documentation            | planning |
-|   13 |               Buffer               | planning |
+| Week |        Task         | Status   |
+| ---: | :-----------------: | :------- |
+|    1 | Analyses & Research | on-going |
+|    2 |   Proposal & MVP    | planning |
+|    3 |         MVP         | planning |
+|    4 |       Buffer        | planning |
+|    5 |     Milestone 1     | planning |
+|    6 |       Buffer        | planning |
+|    7 |     Milestone 2     | planning |
+|    8 |       Buffer        | planning |
+|    9 |     Milestone 3     | planning |
+|   10 |       Buffer        | planning |
+|   11 |     Milestone 4     | planning |
+|   12 |       Buffer        | planning |
+|   13 |       Buffer        | planning |
+|   14 |    Documentation    | planning |
+|   15 |       Buffer        | planning |
 
-- Total Development time: week 4 to week 11; ~400p
+- Total Development time: week 5 to week 13; ~432p
 - Engine decision time: ~50p
-- Initial Planning: ~50p
-- Proposal update after engine decision: ~10p
-- MVP: ~40p
-- Endbuffer: ~50p documenation + ~50p free
-- Weekly buffer: 4p
+- Initial Planning & MVP: ~144p
