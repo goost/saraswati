@@ -5,90 +5,88 @@
 %Es muss klar werden, was genau Sie tun wollen.
 %Insgesamt hat die Beschreibung meist einen Umfang von drei bis fünf Seiten
 
-Where there are students, there is learning.
-Where there is learning, there are teachers.
-Where there are teachers, there are didactics.
-The \enquote{art of learning} evolved over the decades and todays modern,
-interconnected world allows wholly new teaching techniques which where not possible before.
-Especially the field of computer science is rapidly changing and growing and lectures
-which are not teaching basics but delve into more concret technologies need to reevalutate
-themselves yearly and change the topics and didatics of the lecture according to new standards,
-technologies and methods.
+The \enquote{art of learning} evolved over the decades and today's modern, interconnected world allows for new teaching techniques which were not possible before.
+Especially the field of computer science is rapidly changing and growing. 
+Lectures which delve into concrete technologies need to reevaluate
+themselves constantly and change the topics and principles of teaching of the lecture according to new standards, technologies and methods.
 
-Currently, the lectures \enquote{Netze}, 2nd term BI, and \enquote{Internetkommunikaton}
-are teached via theoretical exercises and practical ones.
-The theoretical are solveable with pen and paper – and
-for the kind of topics they are teaching this is totally fine.
-The practical ones, however, are more hands on and need at least a functional computer with network access.
-The later ones are more elaborate and require specialed network setups for allowing
-the students to experience certrain networkg scenarios for themselves. 
-Historically, this special setups are contstructed painstainly via manual 
-connection of actual physical devices via physical switches, routers etc. in the net lab.
-Not only is this tedious and error-prone for one exercise, 
-the configuration must be changed daily for the different student groups.
-Furthermore, often one error and one misstep of one student causes,
-due to the interconnected nature of the whole experience, a whole network collapse
-and nobody is able to continue to work.
+Currently, lectures about \emph{computer networks}, \emph{network communication} and \emph{management of interconnected services in computer networks} in the undergraduate and graduate Computer Science programs of the University of Applied Sciences and Arts Bonn-Rhein-Sieg
+are taught via theoretical and practical exercises.
+The theoretical exercises are solvable with pen and paper –- an approach which benefits the theoretical nature of the exercises.
+The practical ones, however, are more hands-on and need at least a functional computer with network access.
+Later exercises are more elaborate and require specialised network setups to allow the students to experience certain networking scenarios for themselves. 
+Historically, these special setups are constructed painstakingly via manual connection of actual physical devices via physical switches, routers etc. in the net lab.
+Not only is this process tedious and error-prone for one exercise, 
+but the configuration must also be changed daily for the different student groups.
+Furthermore, often an error or misstep of one student causes,
+due to the interconnected nature of the whole experience, a complete network collapse and nobody can continue to work.
 The coupling between the exercise and the actual physical stack
-is becoming more and more of a problem over the years.
+is thus becoming more and more of a problem over the years.
+In the current corona climate, this kind of exercises are further restricted and are often even impossible to execute due to the very fact that the students need to be physically present in the lab.
 
-While such a setup does has merits,
-for one it teaches hands-on just how fickle a network setup can be,
-it does has the mentioned major drawbacks,
-which are certainly not the only one.
-A few years ago though,
-there was no alternative to constructing networks.
-Sure, virtualisation was available even then but the effort required for setting
-up VMs was not smaller then setting up actual devices.
-Last but not least, not everything could be modeled easily via VMs too.
-With the rise of such technologies like docker and vagrant this,
-however, changed.
-Docker allows one of to easily use the native Linux namespaces to create isolated containers and vagrant enables a easily reproducible,
-deterministic setup of multiple VMs and interconnections between them.
-Furthermore, newest web technologies allow such products like katakode,
-which brings a complete shell into the browser,
-alongside the necessary tools and programs for using vagrant,
-docker and more, basically a complete busybox on steroids.
-To put it in a nutshell,
-with modern technologies it is entirely possible to take the current physical network
-setup of the practical exercises and virtualise it.
+While such a setup does have its merits, for one it teaches directly just how fickle a network setup can be and the physical part of networks is a valid teaching point, the aforementioned major drawbacks are quickly becoming unacceptable for a modern-day computer science lecture.
+A few years ago though there was no alternative to constructing networks.
+Although virtualisation was available even then, the effort required for setting up virtual machines (VMs) was not meaningfully smaller than setting up the actual devices, at least not for the still relatively small network scope needed for a student group.
+Last but not least, not everything could be modelled easily via VMs too.
+With the rise of applications like Docker and Vagrant this has, however, changed.
+\hreff{https:///docker.com}{Docker} allows one to easily use the native Linux namespaces to create isolated containers and \hreff{https://www.vagrantup.com/}{Vagrant} enables an easily reproducible, deterministic setup of multiple VMs and interconnections between them.
+Furthermore, modern web technologies like \hreff{https://xtermjs.org/}{xterm.js} allow such products like \hreff{https://www.katacoda.com/}{Katacoda} which brings a complete shell into the browser
+alongside the necessary tools and programs for using Vagrant,
+Docker and more.
+\hreff{https://kubernetes.io/}{Kubernetes'} \hreff{https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/}{online tutorial} leverages this to create a fast, modern, zero-setup beginners experience which is especially important to not lose newcomers due to the complexity of the initial software setup.
+\hreff{https://guacamole.apache.org/}{Apaches Guacamole} even allows one to use desktops remotely in the browser which can be combined with Docker to create \hreff{https://hub.docker.com/r/linuxserver/calibre}{containerised applications} or desktops accessible via the browser.
+\hreff{https://jupyter.org/}{Jupyter notebooks} are another form of easily creating and sharing of intertwined code, instructions and outputs in a reproducible manner (this naturally can be combined with containers, e.g. \hreff{https://github.com/jupyterhub/binderhub}{BinderHub})
+These are just some examples of possible applications and use cases, the bibliography lists a few more applications which can be possibly leveraged in the project.
+
+To put it in a nutshell, with modern technologies, it is entirely possible to take the current physical network setup of the practical exercises and virtualise it.
 This would have, compared to the current setup, several advantages:
 
-(i) The setup would be easily deployable and reproducible which would
-allow quick and easy changes in the configuration too.
-(ii) The whole infrastructure would be not tied to the physical net-lab
-space anymore which results in
-(iii) students being able to solve the exercises on their own laptops and wherever they want.
-Of course (iv) it would be more error-prone and a student‘s mistake
+\begin{enumerate}[(i)]
+	\item The setup would be easily deployable and reproducible which would
+	\item allow quick and easy changes in the configuration too.
+	\item The whole infrastructure would be not tied to the physical net lab space anymore which results in
+	\item students being able to solve the exercises on their laptops and wherever they want using
+	\item only the web browser.
+\end{enumerate}
+Of course (v) it would be more error-prone and a student‘s mistake
 during the exercise would not affect others.
 Nothing comes free though and there are some disadvantages:
-Not actually physically connecting the networks and experiencing physical network
-failures would remove an important experience for beginners in computer networks.
-The actual handling of switches, cables, routers and more is a valuable experience
-and the actual failure of devices and troubleshooting of such infrastructure must be taught too.
-To make a long story short, it is not desireable to \enquote{modernise}
+Not physically connecting the networks and experiencing physical network failures would remove important realisations for computer networks beginners.
+The actual handling of switches, cables, routers and more is a valuable exercise and the actual failure of devices and troubleshooting of such infrastructure must be taught too.
+To make a long story short, it is not desirable to \enquote{modernise}
 all and every exercise nor is it necessary.
 However, the more specialised scenarios,
-which are typically part of higher term lectures and later exercise,
+which are typically part of higher term lectures and later exercises,
 do indeed offer themselves up to be recreated with modern tools.
 
-The goal of the master project is therefore to chose two practical exercises from the lectures
-\enquote{Netzte}, 2nd term BI, \enquote{Internetkommunikation}, 4nd term BI or
-\enquote{Servicemanagment in Netzen}, all term MI,
-and re-implement those with modern technologies – containers, virtualization, web etc.– as appropiate.
+The goal of the master project is, therefore, to choose two to three practical exercises and re-implement those with modern technologies -- containers, virtualisation, web etc. as appropriate  -- as self-contained, easily deployable learning modules.
 
-Creating exercises, tutorials, anything which teaches something to someone, is always a twofold process: On the one hand there is the actual creation, the typical software engineering process: planning, design, requirements analysis, implementation etc. On the other hand there is the customer but different from a typical customer which is the expert for his needs, our customer is a learner, a student who does not knwo exactly what is the best way to learn this or that topic. Does this mean that we can invent an exercise in isolation, without consulting the target audience? Of course not, however, we need to change the approach and the type of question we ask and feedback we collect.
-Unfortunately, the reality of a master project is a somewhat limited time table. Therefore, the focus of the project will be in an actual implemantation as an proof-of-concept of the ways oldfashioned exercises can be modernized.
+Creating teaching applications is always a twofold process:
+On the one hand, there is the actual creation, the typical software engineering process:
+planning, design, requirements analysis, implementation etc.
+On the other hand, there is the customer.
+However, different from a typical customer which is the expert for his needs, our customer is a learner, a student who does not know exactly which is the best way to learn a particular topic.
+Does this mean that we can invent an exercise in isolation, without consulting the target audience?
+It does not, however, we need to change the approach and the type of question we ask and feedback we collect.
+Unfortunately, the reality of a master project is a somewhat limited time table.
+Therefore, the focus of the project will be in on the actual implementation as a proof-of-concept of the ways oldfashioned exercises can be modernised. 
 A complete user evaluation study would better fit in e.g. a master thesis.
-Nonetheless, basic questioning and a feedback round for the prototypes in the end would be favorable.
+Nonetheless, basic questioning and a feedback round for the prototypes, in the end, would be favourable.
+\hreff{https://ctftime.org/ctf-wtf/}{Jeopardy-style Capture the Flag} competitions are a great inspiration on self-contained exercises as they naturally contain isolated modules.
+The learning approach utilised by such competitions can be seen as problem-based learning which shall also be the theoretical foundation of the modules created here.
 
-The project will start with a quick research and overview task about the landscape of modern learning didatics, focusing not only on published papers but also on modern learning platforms and tutorials 
-%<INSER KATAKODA AND K8S LEARNING AND CODEKATA AND SHIT LIKE THAT LINKS>
-(e.g. )
-and how these are achieving fun didatics for complex topics.
-Simultanously, suitable exercises for the modernizaton from the afromentioned lectures will be chosen in conjuktion with Mr Leischner and Ms Kannen. Criteria for choosing an appropiate exercercise are e.g. how much preparation the net lab need for the exercise, how specialized it is, how basic the topic is, how much fun the current state of the exercise is for the students, among others.
-After the exercises are chosen and the research is finished, a first Minimum Viable Product (MVP) of an exercise will be built with a suitable technology. This MVP will iterate on the feedback of Mr Leischner and Ms Kannen, preferable also from students, although this will likely not fit into the time frame.
-After a suitable MVP ermerged from the iteration, the MVP will be continued until it reaches protoype status alongside the second chosen exercise. Both of the prototypes are the final product of the master project.
+The project will start with a quick research and overview task about the landscape of modern learning principles, focusing not only on published papers but also on modern learning platforms and tutorials like the ones mentioned above.
+A focus shall be made in observing how these are achieving fun and approachable learning methods for complex topics.
+Simultaneously, suitable exercises for the modernisation will be defined in conjunction with Mr Leischner and Ms Kannen.
+Criteria for choosing an appropriate exercise are e.g. how much preparation the net lab need for the exercise, how specialized it is, how basic the topic is, how much fun the current state of the exercise is for the students, among others.
+After the exercises and their goal are defined and the research is finished, a first Minimum Viable Product (MVP) of an exercise will be built with suitable technology.
+This MVP will iterate on the feedback of Mr Leischner and Ms Kannen, preferable also from students, although this will likely not fit into the time frame.
+After a suitable approach emerged from the iteration, the MVP will be continued until it reaches prototype status alongside the other chosen exercises.
+All of the prototypes are the final product of the master project, alongside the open-sourced code and documentation.
 
-Gleb Ostrowski has experience working as a tutor, he teached freshman and second years during his bachelor times about object-oritientd programming in Java. He also has experience in building virtualized infrastructure, e.g. he operates his own server which is a collection of differennt services in indepedent containers, realized via docker and docker-compose. He also accomulated needed knowledge during the lecture „Servicemanagment in Netzen“ which he sucessfully attented during the winter term 2019/2020.
-Gleb Ostrowski is therefore suited on both fronts, the technical side and the didatic one, to create exercises for students. Furthermore, as still a student himself, he is aware of the actual needs and wants of his collegaues which should allow him to prepare an exercise which satisfy the students thirst for modern learning methods.
+Gleb Ostrowski has experience working as a tutor, he thought freshman and second years during his bachelor times about object-oriented programming in Java.
+He also has experience in building virtualised infrastructure, e.g. he operates a private server which is a collection of different services in independent containers, realized via docker and docker-compose.
+He also accumulated needed knowledge during the lecture \enquote{Servicemanagment in Netzen} which he successfully attended during the winter term 2019/2020 and has participation knowledge of Capture the Flag competitions. \\
+Gleb Ostrowski is hence suited on both fronts, the technical side and the teaching one, to create exercises for students.
+Being a student himself, he also knows about the pains of non-modern teaching materials.
+Therefore, he is aware of the actual needs and wants of students which should allow him to prepare an exercise which satisfies the students' thirst for modern learning.

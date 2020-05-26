@@ -20,43 +20,43 @@
 \newcommand\miSupervisor{Prof. Dr Martin Leischner}
 \newcommand\miProjectTitle{
             Conception and proof-of-concept implementation 
-            of two computer network exercises as self-contained modules
+            of computer network exercises as self-contained modules
             which utilise problem-based learning and modern
             technologies like containerisation and the web stack}
-\newcommand\miRequirements{Orchestration and automatisation knowledge of multi-server environments; practical experience with docker;
+\newcommand\miRequirements{Orchestration and automatisation knowledge of multi-server environments; practical experience with container technology;
             basic understanding of student's needs; basic teaching experience; programming knowledge; knowledge of modern web technologies}
 \newcommand\miResources{}
 \newcommand\miLiterature{%
 % Add/Import literature into the literature.bib file and \nocite{} it here
 % For named subsections, modifiy 20_about.tex:21 accordingly
-\nocite{latexcompanion}
+\nocite{xtermjsweb}
 }
-\newcommand\miResults{Two prototypes of exercise modules along with usage documentation}
+\newcommand\miResults{Two to three prototypes of exercise modules along with usage documentation with open-sourced source code}
 \newcommand\miTimeTable{%
 % Format for each column (note the '&'s and the '\\\hline' at the end!):
 % DATE & DESCRIPTION & MILESTONE \\\hline
-            2020-02-12 &
+            2020-05-18 &
             -  &
             Project start  \\\hline
-            2020-02-21 &
+            2020-06-02 &
+            Research &
+            - \\\hline
+            2020-06-04 &
             Definition of the project &
             Signatures \\\hline
-            2020-02-23 &
-            Research/ Which frameworks and projects to use? &
-            - \\\hline
-             2020-02-23 &
-            Ready module concepts &
+            2020-06-22 &
+            MVP of one module and finished concepts &
             Milestone I \\\hline
-            2020-03-09 &
-            MVP of the first module &
+            2020-07-20 &
+            MVP of all modules &
             Milestone II \\\hline
-            2020-04-08 &
+            2020-08-10 &
             Prototypes feature complete &
             Milestone III\\\hline
-            2020-04-15 &
+            2020-08-24 &
             Prototypes technical debt free &
             Milestone IV \\\hline
-            2020-04-30 &
+            2020-08-31 &
             Project documentation finished &
             Milestone V \\\hline
             According to schedule &
@@ -65,9 +65,12 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\usepackage[l2tabu, orthodox]{nag}
 \ifen\usepackage[UKenglish]{babel}\fi
 \ifde\usepackage[ngerman]{babel}\fi
+%\usepackage{fontspec} Only XeLatex or LuaLatex
+%\usepackage{lmodern}
+\usepackage[charter]{mathdesign}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
@@ -76,16 +79,22 @@
 \usepackage{csquotes}
 \usepackage{pdfpages}
 \usepackage{array}
-\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{ifdraft}
+\usepackage{enumerate}
 \usepackage[style=numeric]{biblatex}
+\usepackage[colorlinks, urlcolor=magenta!75, breaklinks, bookmarks]{hyperref}
+
 \renewcommand*{\bibfont}{\normalfont\footnotesize}
 \addbibresource{literature.bib}
 
+\newcommand{\hreff}[2]{\href{#1}{#2}\footnote{\url{#1}}}
+\urlstyle{same}
+
 \AtBeginDocument{%
    \hypersetup{%
-        pdfcreator = \miStudentName{}%
+        pdfcreator = \miStudentName{},%
+        pdftitle="\miStudentName{} -- \de{Master Projekt Antrag}\en{Master Project Application}"
     }%
 }
 
