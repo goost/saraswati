@@ -65,28 +65,57 @@ Creating teaching applications is always a twofold process:
 On the one hand, there is the actual creation, the typical software engineering process:
 planning, design, requirements analysis, implementation etc.
 On the other hand, there is the customer.
-However, different from a typical customer which is the expert for his needs, our customer is a learner, a student who does not know exactly which is the best way to learn a particular topic.
+However, different from a typical customer, who is the expert for his needs, our customer is a learner, a student who does not know exactly which is the best way to learn a particular topic.
 Does this mean that we can invent an exercise in isolation, without consulting the target audience?
 It does not, however, we need to change the approach and the type of question we ask and feedback we collect.
 Unfortunately, the reality of a master project is a somewhat limited time table.
 Therefore, the focus of the project will be in on the actual implementation as a proof-of-concept of the ways oldfashioned exercises can be modernised. 
-A complete user evaluation study would better fit in e.g. a master thesis.
+A complete user evaluation study would better fit in the scope of a master thesis.
 Nonetheless, basic questioning and a feedback round for the prototypes, in the end, would be favourable.
-\hreff{https://ctftime.org/ctf-wtf/}{Jeopardy-style Capture the Flag} competitions are a great inspiration on self-contained exercises as they naturally contain isolated modules.
+
+\hreff{https://ctftime.org/ctf-wtf/}{Jeopardy-style Capture the Flag (CTF)} competitions are a great inspiration on self-contained exercises as they naturally contain isolated modules.
 The learning approach utilised by such competitions can be seen as problem-based learning which shall also be the theoretical foundation of the modules created here.
 
-The project will start with a quick research and overview task about the landscape of modern learning principles, focusing not only on published papers but also on modern learning platforms and tutorials like the ones mentioned above.
-A focus shall be made in observing how these are achieving fun and approachable learning methods for complex topics.
-Simultaneously, suitable exercises for the modernisation will be defined in conjunction with Mr Leischner and Ms Kannen.
-Criteria for choosing an appropriate exercise are e.g. how much preparation the net lab need for the exercise, how specialized it is, how basic the topic is, how much fun the current state of the exercise is for the students, among others.
-After the exercises and their goal are defined and the research is finished, a first Minimum Viable Product (MVP) of an exercise will be built with suitable technology.
-This MVP will iterate on the feedback of Mr Leischner and Ms Kannen, preferable also from students, although this will likely not fit into the time frame.
-After a suitable approach emerged from the iteration, the MVP will be continued until it reaches prototype status alongside the other chosen exercises.
-All of the prototypes are the final product of the master project, alongside the open-sourced code and documentation.
+The project will start with a short research and overview task about the landscape of modern learning principles, focusing not only on published papers but also on modern learning platforms and tutorials like the ones mentioned above.
+A focus shall be made in observing how these are achieving fun and approachable learning methods for complex topics.  
+The actual implementation is split in three phases:
 
-Gleb Ostrowski has experience working as a tutor, he thought freshman and second years during his bachelor times about object-oriented programming in Java.
-He also has experience in building virtualised infrastructure, e.g. he operates a private server which is a collection of different services in independent containers, realized via docker and docker-compose.
-He also accumulated needed knowledge during the lecture \enquote{Servicemanagment in Netzen} which he successfully attended during the winter term 2019/2020 and has participation knowledge of Capture the Flag competitions. \\
-Gleb Ostrowski is hence suited on both fronts, the technical side and the teaching one, to create exercises for students.
-Being a student himself, he also knows about the pains of non-modern teaching materials.
-Therefore, he is aware of the actual needs and wants of students which should allow him to prepare an exercise which satisfies the students' thirst for modern learning.
+\begin{enumerate}
+    \item The first phase focuses on the needed infrastructure and the formal aspects:
+    How should modules be created?
+    Which technologies are needed?
+    How can they be securely deployed?
+    As a simple base exercises an already existing one from one of the computer network
+    exercises will be used.
+    \item The second phase focuses on a complex module: Now that the module structure is defined, how can one build an exercise which needs a multitude of services and interconnected parts?
+    How to safely capsule and secure them?
+    While phase one is all about the high level structure of a reuseable, simple module,
+    phase two is all about fitting complex machineries into this structure and changing it
+    accordingly.
+    The exercise itself is still rather simple, it only needs a complex setup.
+    \item Phase three combines phase one and two to create an actual exercises in spirit
+    of an CTF challenge.
+    As the question of the architecture itself and how to fit complex infrastructure into it
+    was already answered in phase one and two, phase three can solely focus on
+    an actual exercise which makes sense in this scenario and benefits from the
+    technology.
+    Different from the usual exercise the exercise should combine aspects of CTFs and problem-based learning to present a challenge for the students in a safe environment where they can experiment on their own without the fear of breaking something important.
+    These phase is mostly nice to have and it is currently unclear if it will be reachable in the scope of a master project.
+    Phase three could be the start of a master thesis.
+\end{enumerate}
+
+The prototypes of the phases are the final product of the master project, alongside the open-sourced code and documentation.
+
+%Simultaneously, suitable exercises for the modernisation will be defined in conjunction with Mr Leischner and Ms Kannen.
+%Criteria for choosing an appropriate exercise are e.g. how much preparation the net lab need for the exercise, how specialized it is, how basic the topic is, how much fun the current state of the exercise is for the students, among others.
+%After the exercises and their goal are defined and the research is finished, a first Minimum Viable Product (MVP) of an exercise will be built with suitable technology.
+%This MVP will iterate on the feedback of Mr Leischner and Ms Kannen, preferable also from students, although this will likely not fit into the time frame.
+%After a suitable approach emerged from the iteration, the MVP will be continued until it reaches prototype status alongside the other chosen exercises.
+%All of the prototypes are the final product of the master project, alongside the open-sourced code and documentation.
+
+I have experience working as a tutor as I taught freshmen and sophomores during my bachelor times about object-oriented programming in Java.
+Furthermore, I also have experience in building virtualised infrastructure, e.g. I operate a private server which is a collection of different services in independent containers, realised via docker and docker-compose, among other technologies.
+I also accumulated needed knowledge during the lecture \enquote{Servicemanagment in Netzen} which I successfully attended during the winter term 2019/2020 and have participation knowledge of Capture the Flag competitions. \\
+Hence I believe, I am suited on both fronts, the technical side and the teaching one, for the specific requirements of this project.
+Being a student myself, I also know about the pains of non-modern teaching materials.
+Therefore, I am aware of the actual needs and wants of students which should allow me to prepare exercises which satisfies the students' thirst for modern learning.

@@ -1,8 +1,9 @@
 \documentclass[a4paper, 12pt
-%%%%%%%%%%% Comment out for final version %%%%%%%%%%%%%
-, draft
+%%%%%%%%%%% Remove comment if not final %%%%%%%%%%%%%%%%%%%%
+%, draft
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-]{scrartcl} %scrreprt
+]{scrartcl} 
+\usepackage[l2tabu, orthodox]{nag}
 \newif\ifen
 \newif\ifde
 \newcommand{\en}[1]{\ifen#1\fi}
@@ -25,13 +26,22 @@
             technologies like containerisation and the web stack}
 \newcommand\miRequirements{Orchestration and automatisation knowledge of multi-server environments; practical experience with container technology;
             basic understanding of student's needs; basic teaching experience; programming knowledge; knowledge of modern web technologies}
-\newcommand\miResources{}
+\newcommand\miResources{Server infrastructure with root access and virtualisation capabilities }
 \newcommand\miLiterature{%
 % Add/Import literature into the literature.bib file and \nocite{} it here
 % For named subsections, modifiy 20_about.tex:21 accordingly
 \nocite{xtermjsweb}
+\nocite{node-ptyweb}
+\nocite{wetty}
+\nocite{guacWeb}
+\nocite{linuxserverRdesktop}
+\nocite{linuxserverTaisun}
+\nocite{sylabssingularity}
+\nocite{proxmox}
+\nocite{wetty}
+\nocite{wetty}
 }
-\newcommand\miResults{Two to three prototypes of exercise modules along with usage documentation with open-sourced source code}
+\newcommand\miResults{Prototypes of accomplished phases (see description on next page) along with usage documentation and open-sourced source code}
 \newcommand\miTimeTable{%
 % Format for each column (note the '&'s and the '\\\hline' at the end!):
 % DATE & DESCRIPTION & MILESTONE \\\hline
@@ -45,10 +55,10 @@
             Definition of the project &
             Signatures \\\hline
             2020-06-22 &
-            MVP of one module and finished concepts &
+            MVP of phase one and finished concepts &
             Milestone I \\\hline
             2020-07-20 &
-            MVP of all modules &
+            MVP of all phases &
             Milestone II \\\hline
             2020-08-10 &
             Prototypes feature complete &
@@ -65,7 +75,6 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[l2tabu, orthodox]{nag}
 \ifen\usepackage[UKenglish]{babel}\fi
 \ifde\usepackage[ngerman]{babel}\fi
 %\usepackage{fontspec} Only XeLatex or LuaLatex
@@ -83,7 +92,7 @@
 \usepackage{ifdraft}
 \usepackage{enumerate}
 \usepackage[style=numeric]{biblatex}
-\usepackage[colorlinks, urlcolor=magenta!75, breaklinks, bookmarks]{hyperref}
+\usepackage[colorlinks, urlcolor=magenta!65, breaklinks, bookmarks]{hyperref}
 
 \renewcommand*{\bibfont}{\normalfont\footnotesize}
 \addbibresource{literature.bib}
