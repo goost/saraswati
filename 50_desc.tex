@@ -1,18 +1,19 @@
 \section*{\de{Projektbeschreibung}\en{Project description}}
+%%%%%% CHANGE to your project description%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Machen Sie darin den Kontext der Arbeit deutlich (ca. 1 Seite),
 %worin die wissenschaftliche Fragestellung besteht (ca. 1 Seite)
 %und auf welche bereits erworbenen Kenntnisse Sie aufsetzen wollen.
 %Es muss klar werden, was genau Sie tun wollen.
 %Insgesamt hat die Beschreibung meist einen Umfang von drei bis fünf Seiten
-
+%
 The \enquote{art of learning} evolved over the decades and today's modern, interconnected world allows for new teaching techniques which were not possible before.
 Especially the field of computer science is rapidly changing and growing. 
 Lectures which delve into concrete technologies need to reevaluate
-themselves constantly and change the topics and principles of teaching of the lecture according to new standards, technologies and methods.
+themselves constantly and change their topics and principles of teaching according to new standards, technologies and methods.
 
-Currently, lectures about \emph{computer networks}, \emph{network communication} and \emph{management of interconnected services in computer networks} in the undergraduate and graduate Computer Science programs of the University of Applied Sciences and Arts Bonn-Rhein-Sieg
+Currently, lectures about \emph{computer networks}, \emph{network communication} and \emph{management of interconnected services in computer networks} in the undergraduate and graduate computer science programs of the University of Applied Sciences and Arts Bonn-Rhein-Sieg
 are taught via theoretical and practical exercises.
-The theoretical exercises are solvable with pen and paper –- an approach which benefits the theoretical nature of the exercises.
+The theoretical exercises are solvable with pen and paper –- an approach which benefits the academic nature of the exercises.
 The practical ones, however, are more hands-on and need at least a functional computer with network access.
 Later exercises are more elaborate and require specialised network setups to allow the students to experience certain networking scenarios for themselves. 
 Historically, these special setups are constructed painstakingly via manual connection of actual physical devices via physical switches, routers etc. in the net lab.
@@ -25,41 +26,41 @@ is thus becoming more and more of a problem over the years.
 In the current corona climate, this kind of exercises are further restricted and are often even impossible to execute due to the very fact that the students need to be physically present in the lab.
 
 While such a setup does have its merits, for one it teaches directly just how fickle a network setup can be and the physical part of networks is a valid teaching point, the aforementioned major drawbacks are quickly becoming unacceptable for a modern-day computer science lecture.
-A few years ago though there was no alternative to constructing networks.
-Although virtualisation was available even then, the effort required for setting up virtual machines (VMs) was not meaningfully smaller than setting up the actual devices, at least not for the still relatively small network scope needed for a student group.
+For the longest time though there was no real practical alternative to constructing networks.
+Although virtualisation is available for some years, the effort required for setting up virtual machines (VMs) was not meaningfully smaller than setting up the actual devices, at least not for the still relatively small network scope needed for a student group.
 Last but not least, not everything could be modelled easily via VMs too.
-With the rise of applications like Docker and Vagrant this has, however, changed.
-\hreff{https:///docker.com}{Docker} allows one to easily use the native Linux namespaces to create isolated containers and \hreff{https://www.vagrantup.com/}{Vagrant} enables an easily reproducible, deterministic setup of multiple VMs and interconnections between them.
-Furthermore, modern web technologies like \hreff{https://xtermjs.org/}{xterm.js} allow such products like \hreff{https://www.katacoda.com/}{Katacoda} which brings a complete shell into the browser
+With the rise of applications like Docker, Vagrant and Kubernetes this has, however, changed.
+
+\hreff{https:///docker.com}{Docker} allows one to easily use the native Linux namespaces to create isolated containers and \hreff{https://www.vagrantup.com/}{Vagrant} enables an easily reproducible, deterministic setup of multiple VMs and interconnections between them. \hreff{https://kubernetes.io/}{Kubernetes} is Docker on steroids.
+Furthermore, modern web technologies like \hreff{https://xtermjs.org/}{xterm.js} allow the creation of products like \hreff{https://www.katacoda.com/}{Katacoda} which brings a complete shell into the browser
 alongside the necessary tools and programs for using Vagrant,
-Docker and more.
-\hreff{https://kubernetes.io/}{Kubernetes'} \hreff{https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/}{online tutorial} leverages this to create a fast, modern, zero-setup beginners experience which is especially important to not lose newcomers due to the complexity of the initial software setup.
+Docker and more for a complete learning experience.
+Kubernetes' \hreff{https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/}{online tutorial} leverages this to create a fast, modern, zero-setup beginners experience which is especially important to not lose newcomers due to the complexity of the initial software setup.
 \hreff{https://guacamole.apache.org/}{Apaches Guacamole} even allows one to use desktops remotely in the browser which can be combined with Docker to create \hreff{https://hub.docker.com/r/linuxserver/calibre}{containerised applications} or desktops accessible via the browser.
-\hreff{https://jupyter.org/}{Jupyter notebooks} are another form of easily creating and sharing of intertwined code, instructions and outputs in a reproducible manner (this naturally can be combined with containers, e.g. \hreff{https://github.com/jupyterhub/binderhub}{BinderHub})
+\hreff{https://jupyter.org/}{Jupyter notebooks} are another option for easily creating and sharing of intertwined code, instructions and outputs in a reproducible manner (this naturally can be combined with containers, e.g. \hreff{https://github.com/jupyterhub/binderhub}{BinderHub}), especially popular with data scientists.
 These are just some examples of possible applications and use cases, the bibliography lists a few more applications which can be possibly leveraged in the project.
 
 To put it in a nutshell, with modern technologies, it is entirely possible to take the current physical network setup of the practical exercises and virtualise it.
 This would have, compared to the current setup, several advantages:
 
 \begin{enumerate}[(i)]
-	\item The setup would be easily deployable and reproducible which would
-	\item allow quick and easy changes in the configuration too.
-	\item The whole infrastructure would be not tied to the physical net lab space anymore which results in
-	\item students being able to solve the exercises on their laptops and wherever they want using
-	\item only the web browser.
+    \item The setup would be easily deployable and reproducible which would
+    \item allow quick and easy changes in the configuration too.
+    \item The whole infrastructure would be not tied to the physical net lab space anymore which results in
+    \item students being able to solve the exercises on their laptops and wherever they want using
+    \item only the web browser.
 \end{enumerate}
-Of course (v) it would be more error-prone and a student‘s mistake
+And (vi) it would be more error-prone and a student‘s mistake
 during the exercise would not affect others.
+
 Nothing comes free though and there are some disadvantages:
 Not physically connecting the networks and experiencing physical network failures would remove important realisations for computer networks beginners.
 The actual handling of switches, cables, routers and more is a valuable exercise and the actual failure of devices and troubleshooting of such infrastructure must be taught too.
 To make a long story short, it is not desirable to \enquote{modernise}
 all and every exercise nor is it necessary.
-However, the more specialised scenarios,
-which are typically part of higher term lectures and later exercises,
-do indeed offer themselves up to be recreated with modern tools.
+However, the more specialised scenarios, which are typically part of higher term lectures and later exercises, do indeed offer themselves up to be recreated with modern tools.
 
-The goal of the master project is, therefore, to choose two to three practical exercises and re-implement those with modern technologies -- containers, virtualisation, web etc. as appropriate  -- as self-contained, easily deployable learning modules.
+The goal of the master project is, therefore, to create a prototype of an infrastructure for creating and deploying computer science exercises, focusing on computer networks, with modern technologies -- containers, virtualisation, web etc. as appropriate  -- as self-contained learning modules.
 
 Creating teaching applications is always a twofold process:
 On the one hand, there is the actual creation, the typical software engineering process:
@@ -69,49 +70,36 @@ However, different from a typical customer, who is the expert for his needs, our
 Does this mean that we can invent an exercise in isolation, without consulting the target audience?
 It does not, however, we need to change the approach and the type of question we ask and feedback we collect.
 Unfortunately, the reality of a master project is a somewhat limited time table.
-Therefore, the focus of the project will be in on the actual implementation as a proof-of-concept of the ways oldfashioned exercises can be modernised. 
+Therefore, the focus of the project will be in on the conception and actual implementation as a proof-of-concept of the ways oldfashioned exercises can be modernised. 
 A complete user evaluation study would better fit in the scope of a master thesis.
 Nonetheless, basic questioning and a feedback round for the prototypes, in the end, would be favourable.
 
 \hreff{https://ctftime.org/ctf-wtf/}{Jeopardy-style Capture the Flag (CTF)} competitions are a great inspiration on self-contained exercises as they naturally contain isolated modules.
-The learning approach utilised by such competitions can be seen as problem-based learning which shall also be the theoretical foundation of the modules created here.
+The learning approach utilised by such competitions can be seen as problem-based learning which shall also be the theoretical foundation of the modules created during the project.
 
-The project will start with a short research and overview task about the landscape of modern learning principles, focusing not only on published papers but also on modern learning platforms and tutorials like the ones mentioned above.
+The project will start with a research and overview task about the landscape of modern learning principles, focusing not only on published papers but also on modern learning platforms and tutorials like the ones mentioned above.
 A focus shall be made in observing how these are achieving fun and approachable learning methods for complex topics.  
-The actual implementation is split in three phases:
+The actual implementation is split into three phases:
 
 \begin{enumerate}
     \item The first phase focuses on the needed infrastructure and the formal aspects:
     How should modules be created?
     Which technologies are needed?
     How can they be securely deployed?
-    As a simple base exercises an already existing one from one of the computer network
-    exercises will be used.
+    As a simple base exercises an already existing one from one of the computer network lectures will be used.
     \item The second phase focuses on a complex module: Now that the module structure is defined, how can one build an exercise which needs a multitude of services and interconnected parts?
     How to safely capsule and secure them?
-    While phase one is all about the high level structure of a reuseable, simple module,
-    phase two is all about fitting complex machineries into this structure and changing it
-    accordingly.
+    While phase one is all about the high-level structure of a reuseable, simple module,
+    phase two is all about fitting complex machinery into this structure and changing it accordingly.
     The exercise itself is still rather simple, it only needs a complex setup.
-    \item Phase three combines phase one and two to create an actual exercises in spirit
-    of an CTF challenge.
-    As the question of the architecture itself and how to fit complex infrastructure into it
-    was already answered in phase one and two, phase three can solely focus on
-    an actual exercise which makes sense in this scenario and benefits from the
-    technology.
-    Different from the usual exercise the exercise should combine aspects of CTFs and problem-based learning to present a challenge for the students in a safe environment where they can experiment on their own without the fear of breaking something important.
-    These phase is mostly nice to have and it is currently unclear if it will be reachable in the scope of a master project.
-    Phase three could be the start of a master thesis.
+    \item Phase three combines phase one and two to create an actual exercise in the spirit of a CTF challenge.
+    As the question of the architecture itself and how to fit complex infrastructure into it was already answered in phase one and two, phase three can solely focus on an actual exercise which makes sense in this scenario and benefits from the technology.
+    Different from the usual computer network exercises this exercise should combine aspects of CTFs and problem-based learning to present a challenge for the students in a safe environment where they can experiment on their own without the fear of breaking something important.
+    This phase is mostly nice to have and it is currently unclear if it will be reachable in the scope of a master project.
+    It could, e.g., be the start of a master thesis.
 \end{enumerate}
 
 The prototypes of the phases are the final product of the master project, alongside the open-sourced code and documentation.
-
-%Simultaneously, suitable exercises for the modernisation will be defined in conjunction with Mr Leischner and Ms Kannen.
-%Criteria for choosing an appropriate exercise are e.g. how much preparation the net lab need for the exercise, how specialized it is, how basic the topic is, how much fun the current state of the exercise is for the students, among others.
-%After the exercises and their goal are defined and the research is finished, a first Minimum Viable Product (MVP) of an exercise will be built with suitable technology.
-%This MVP will iterate on the feedback of Mr Leischner and Ms Kannen, preferable also from students, although this will likely not fit into the time frame.
-%After a suitable approach emerged from the iteration, the MVP will be continued until it reaches prototype status alongside the other chosen exercises.
-%All of the prototypes are the final product of the master project, alongside the open-sourced code and documentation.
 
 I have experience working as a tutor as I taught freshmen and sophomores during my bachelor times about object-oriented programming in Java.
 Furthermore, I also have experience in building virtualised infrastructure, e.g. I operate a private server which is a collection of different services in independent containers, realised via docker and docker-compose, among other technologies.

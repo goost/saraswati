@@ -1,7 +1,7 @@
 \documentclass[a4paper, 12pt
 %%%%%%%%%%% Remove comment if not final %%%%%%%%%%%%%%%%%%%%
 %, draft
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ]{scrartcl} 
 \usepackage[l2tabu, orthodox]{nag}
 \newif\ifen
@@ -10,8 +10,8 @@
 \newcommand{\de}[1]{\ifde#1\fi}
 
 
-%%%%%%%%%%% Change the strings here %%%%%%%%%%%
-%Choose document language, leave only _one_ uncommented
+%%%%%%%%%%% CHANGE the strings here %%%%%%%%%%%%%%%%%%%%%%
+%Choose document language, leave only _one_ uncommented!
 %\detrue
 \entrue
 % Add project description in file 50_desc.tex
@@ -38,8 +38,12 @@
 \nocite{linuxserverTaisun}
 \nocite{sylabssingularity}
 \nocite{proxmox}
-\nocite{wetty}
-\nocite{wetty}
+\nocite{ttyd}
+\nocite{instantbox2019Jul}
+\nocite{hackinglabContainers}
+\nocite{dockerx11bridge}
+%\nocite{instantbox2019Jul}
+%\nocite{instantbox2019Jul}
 }
 \newcommand\miResults{Prototypes of accomplished phases (see description on next page) along with usage documentation and open-sourced source code}
 \newcommand\miTimeTable{%
@@ -74,7 +78,7 @@
             Finish \\\hline
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% STOP changing from here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifen\usepackage[UKenglish]{babel}\fi
 \ifde\usepackage[ngerman]{babel}\fi
 %\usepackage{fontspec} Only XeLatex or LuaLatex
@@ -83,7 +87,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
-\usepackage[margin=2.5cm]{geometry}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[margin=2.4cm]{geometry}
 \usepackage{xcolor}
 \usepackage{csquotes}
 \usepackage{pdfpages}
@@ -94,7 +100,7 @@
 \usepackage[style=numeric]{biblatex}
 \usepackage[colorlinks, urlcolor=magenta!65, breaklinks, bookmarks]{hyperref}
 
-\renewcommand*{\bibfont}{\normalfont\footnotesize}
+\renewcommand*{\bibfont}{\normalfont\small}
 \addbibresource{literature.bib}
 
 \newcommand{\hreff}[2]{\href{#1}{#2}\footnote{\url{#1}}}
@@ -108,19 +114,18 @@
 }
 
 \begin{document}
-\pagestyle{empty}
 \includegraphics[width=0.4\textwidth]{imgs/hbrs_logo.png}\\\\
 \textbf{\Huge \ifdraft{\textcolor{red}{DRAFT, NOT SPELLCHECKED}\\}{} \de{Projekt im Studiengang MI}\en{Project in major MI}}
 
 \input{10_facts}
 \input{20_about}
-%\input{30_timetable}
-\input{35_timetable}
+\input{30_timetable}
 \input{40_sigs}
 \clearpage
-\pagestyle{headings}
-\setcounter{page}{1}
 \input{50_desc}
+\clearpage
+%\setcounter{page}{1}
+\input{60_appendix}
 
 
 
