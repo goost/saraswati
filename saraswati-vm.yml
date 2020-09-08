@@ -1,0 +1,36 @@
+config:
+  user.user-data: |
+    #cloud-config
+    apt:
+      sources:
+        docker:
+          source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+          keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    package_upgrade: true
+    packages:
+      - curl
+      - software-properties-common
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    groups:
+      - docker
+    system_info:
+      default_user:
+        groups: [docker]
+    write_files:
+      - content: |
+          #!/bin/bash
+          modprobe shiftfs
+          latest_sysbox=$(curl --silent "https://api.github.com/repos/nestybox/sysbox/releases/latest" | grep -Po '"browser_download_url": "\K.*?focal.*?(?=")')
+          curl -Lo /tmp/sysbox.deb $latest_sysbox
+          apt install /tmp/sysbox.deb -y
+          rm /tmp/sysbox.deb
+        path: /install_sysbox.sh
+        permissions: '0755'
+    runcmd:
+      - [ bash, /install_sysbox.sh ]
+      - [ bash, -c, "rm /install_sysbox.sh"]
+    package_reboot_if_required: true
+description: Profile for the saraswati vm, use in combination with the default profile
+name: saraswati-vm
