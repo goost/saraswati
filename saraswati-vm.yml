@@ -9,6 +9,7 @@ config:
     package_upgrade: true
     packages:
       - curl
+      - git
       - software-properties-common
       - docker-ce
       - docker-ce-cli
@@ -26,11 +27,16 @@ config:
           curl -Lo /tmp/sysbox.deb $latest_sysbox
           apt install /tmp/sysbox.deb -y
           rm /tmp/sysbox.deb
-        path: /install_sysbox.sh
+          sed -i '/{/{s//{\n\    "default-runtime": "sysbox-runc",/;:p;n;bp}' /etc/docker/daemon.json
+          systemctl restart docker
+          latest_compose=$(curl --silent "https://api.github.com/repos/docker/compose/releases/latest" | grep -Po '"browser_download_url": "\K.*?Linux-x86_64(?=")')
+          curl -Lo /usr/local/bin/docker-compose $latest_compose
+          chmod +x /usr/local/bin/docker-compose
+        path: /post_requirements.sh
         permissions: '0755'
     runcmd:
-      - [ bash, /install_sysbox.sh ]
-      - [ bash, -c, "rm /install_sysbox.sh"]
+      - [ bash, /install_requirements.sh ]
+      - [ bash, -c, "rm /install_requirements.sh"]
     package_reboot_if_required: true
 description: Profile for the saraswati vm, use in combination with the default profile
 name: saraswati-vm
