@@ -58,7 +58,7 @@ The usually risks of running scripts from the Internet apply.
   3. Fill it with the contents of [saraswati-basic.yml](./saraswati-basic.yml) `sudo lxc profile edit saraswati-basic < saraswati-basic.yml`
   4. Lauch a vm `sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false`
   5. Wait for the VM to launch and configure itself
-    - `while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do sleep 10; echo "Configuring..."; done`
+     - `while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do sleep 10; echo "Configuring..."; done`
   6. Setup iptables rules to redirect http and https traffic from the web to the vm
      1. `saraswati_ip_address=$(sudo lxc info saraswati | grep -Po '[^docker]0:\sinet\s\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')`
         - This regex may fail, what we want is the ipv4 address of the saraswati vm as shown by `sudo lxc info saraswati`

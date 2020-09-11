@@ -12,23 +12,22 @@ set -e
 # - All the modules available in the repo will be up-and-running
 # - Ports 80 and 443 on the host will be proxied to the VM
 
-sudo apt udpdate && sudo apt install snapd wget iptables -y
-sudo sysctl net.ipv4.ip_forward | grep 1
+sudo apt update && sudo apt install snapd wget iptables -y
 echo "Installing LXD"
 sudo snap install lxd
+# TODO (glost) From which step exactly?
+lxd --version > /dev/null 2>&1 || bash -c 'echo "Error during installation of LXD. Aborting, please proceed manually from the \"LXD\" step." ; exit 1'
+echo "Initalizing LXD with default values and a ZFS storage pool of  (https://linuxcontainers.org/lxd/getting-started-cli/#initial-configuration)"
+sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default
+sudo sysctl net.ipv4.ip_forward | grep -q 1
 if [ $? -ne 0 ] ; then
     sudo bash -c "echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-saraswati.conf"
     #TODO (glost) Does write apply or does it do the same as the above?
     sudo sysctl -w net.ipv4.ip_forward=1
     echo "IPv4 Forwarding was not set!"
 fi
-# TODO (glost) From which step exactly?
-lxd --version 2> /dev/null || bash -c 'echo "Error during installation of LXD. Aborting, please proceed manually from the \"LXD\" step." >&2 ; exit 1'
-echo "Initalizing LXD with default values and a ZFS storage pool of  (https://linuxcontainers.org/lxd/getting-started-cli/#initial-configuration)"
-sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default
 echo "Creating VM to host modules"
 sudo lxc profile create saraswati-basic
-# TODO (glost) Test the pipe
 wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
 sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false
 echo "Waiting for the VM to configure itself and start..."
@@ -54,4 +53,4 @@ echo "Creating Auth and more docker containers"
 #sudo lxc profile create saraswati-auth
 # TODO (glost) Test the pipe
 #wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
-sudo lxc exec saraswati -- su --login ubuntu
+#sudo lxc exec saraswati -- su --login ubuntu
