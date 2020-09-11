@@ -20,7 +20,7 @@ lxd --version > /dev/null 2>&1 || bash -c 'echo "Error during installation of LX
 echo "Initalizing LXD with default values and a ZFS storage pool of  (https://linuxcontainers.org/lxd/getting-started-cli/#initial-configuration)"
 sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default
 sudo sysctl net.ipv4.ip_forward | grep -q 1
-if [ $? -ne 0 ] ; then
+if [[ $? -ne 0 ]] ; then
     sudo bash -c "echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-saraswati.conf"
     #TODO (glost) Does write apply or does it do the same as the above?
     sudo sysctl -w net.ipv4.ip_forward=1
@@ -31,7 +31,7 @@ sudo lxc profile create saraswati-basic
 wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
 sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false
 echo "Waiting for the VM to configure itself and start..."
-while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do
+while [[ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done" ]]; do
 sleep 10
 echo "Configuring..."
 done
@@ -52,5 +52,4 @@ echo "Creating Auth and more docker containers"
 # TODO (glost) Move this up, all profiles needs to be set before
 #sudo lxc profile create saraswati-auth
 # TODO (glost) Test the pipe
-#wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
-#sudo lxc exec saraswati -- su --login ubuntu
+sudo lxc exec --user 1000 saraswati -- bash -c "cd ~/saraswati/authentification ; bash config.sh "

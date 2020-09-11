@@ -34,6 +34,7 @@ config:
           latest_compose=$(curl --silent "https://api.github.com/repos/docker/compose/releases/latest" | grep -Po '"browser_download_url": "\K.*?Linux-x86_64(?=")')
           curl -Lo /usr/local/bin/docker-compose $latest_compose
           chmod +x /usr/local/bin/docker-compose
+          su ubuntu <<< "cd ~; git clone --depth=1 https://github.com/goost/saraswati --branch develop --single-branch"
         path: /install_requirements.sh
         permissions: '0755'
     runcmd:

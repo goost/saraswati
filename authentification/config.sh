@@ -42,13 +42,14 @@ fi
 #TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
 sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authelia/docker-compose.yml,authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
-sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" {traefik/docker-compose.yml}
+sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" traefik/docker-compose.yml
 
-mkdir authelia/secrets
+mkdir -p authelia/secrets
 echo $jwt_secret > authelia/secrets/jwt
 echo $session_secret > authelia/secrets/session
 echo $postgres_pw > authelia/secrets/postgres
 
+mkdir -p traefik/mount
 touch traefik/mount/acme.json
 chmod 600 traefik/mount/acme.json
 
