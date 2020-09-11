@@ -41,6 +41,7 @@ The usually risks of running scripts from the Internet apply.
   - Reload sysctl `sudo sysctl --system` if ipv4 forwarding was not enabled
 
 ### 1. Initial setup
+
 #### 1.1 LXD
 
   1. Install LXD
@@ -53,9 +54,9 @@ The usually risks of running scripts from the Internet apply.
        3. `sudo lxd init`
           - Choose approbiate settings, default ones if unsure. Keep in mind to allocate enough storage space for the VM to use later.
           - Script uses `sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default`
-  2. Create a new profile `sudo lxc profile create saraswati-vm`
-  3. Fill it with the contents of [saraswati-vm.yml](./saraswati-vm.yml) `sudo lxc profile edit saraswati-vm < saraswati-vm.yml`
-  4. Lauch a vm `sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-vm --vm -c security.secureboot=false`
+  2. Create a new profile `sudo lxc profile create saraswati-basic`
+  3. Fill it with the contents of [saraswati-basic.yml](./saraswati-basic.yml) `sudo lxc profile edit saraswati-basic < saraswati-basic.yml`
+  4. Lauch a vm `sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false`
   5. Wait for the VM to launch and configure itself
     - `while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do sleep 10; echo "Configuring..."; done`
   6. Setup iptables rules to redirect http and https traffic from the web to the vm
@@ -66,6 +67,9 @@ The usually risks of running scripts from the Internet apply.
      3. `sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostname) --dport 80 -j DNAT --to-destination $saraswati_ip_address:80`
      4. `sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostname) --dport 443 -j DNAT --to-destination $saraswati_ip_address:443`
      5. `sudo apt install iptables-persistent -y`, answer yes to have the rules saved automagically.
-        - To save them manually, use `sudo bash -c "iptables-save > /etc/iptables/rules.v4"`
+        - To save them manually, use `sudo bash -c "iptables-save -f /etc/iptables/rules.v4"`
 
 #### 1.2 Authentification and Proxy
+
+  1. `sudo lxc profile create saraswati-auth`
+  2. `sudo lxc profile edit saraswati-auth < saraswati-auth.yml`

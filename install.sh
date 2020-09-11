@@ -12,29 +12,46 @@ set -e
 # - All the modules available in the repo will be up-and-running
 # - Ports 80 and 443 on the host will be proxied to the VM
 
-echo "Enter an eMail address for Let's Encrypt certificate generation."
-echo "(Only a minimal validity check is performed.)"
-read email_address
-
-quick_email_regex="(.+)@(.+)\.(.+)"
-if [[ $email_address =~ $quick_email_regex ]] ; then
-    echo "Using email:" $email_address
-else
-    echo "The address should at least have an '@' and a domain at the end!\nPlease restart the installation." >$2
-    exit 1
-fi
-
-sudo apt udpdate && sudo apt install snapd wget -y
+sudo apt udpdate && sudo apt install snapd wget iptables -y
+sudo sysctl net.ipv4.ip_forward | grep 1
+echo "Installing LXD"
 sudo snap install lxd
+if [ $? -ne 0 ] ; then
+    sudo bash -c "echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-saraswati.conf"
+    #TODO (glost) Does write apply or does it do the same as the above?
+    sudo sysctl -w net.ipv4.ip_forward=1
+    echo "IPv4 Forwarding was not set!"
+fi
+# TODO (glost) From which step exactly?
 lxd --version 2> /dev/null || bash -c 'echo "Error during installation of LXD. Aborting, please proceed manually from the \"LXD\" step." >&2 ; exit 1'
 echo "Initalizing LXD with default values and a ZFS storage pool of  (https://linuxcontainers.org/lxd/getting-started-cli/#initial-configuration)"
 sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default
-sudo lxc profile create saraswati-vm
-wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh | sudo lxc profile edit saraswati-vm
-sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-vm --vm -c security.secureboot=false
+echo "Creating VM to host modules"
+sudo lxc profile create saraswati-basic
+# TODO (glost) Test the pipe
+wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
+sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false
 echo "Waiting for the VM to configure itself and start..."
 while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do
 sleep 10
 echo "Configuring..."
 done
+# TODO (glost) This regexes needs more testing!
+echo "Creating Iptables rules for accessing the VM from the Internet."
+saraswati_ip_address=$(sudo lxc info saraswati | grep -Po '[^docker]0:\sinet\s\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+saraswati_host_device=$(ip route get 176.9.93.198 | grep -Po 'dev\s\K[A-Za-z0-9]+(?=\s)')
+echo "Got" $saraswati_ip_address " as the IP-Address of the container. If this is wrong, the IPtables rules need to be adjusted!"
+echo "Got" $saraswati_host_device " as the primary ethernet device of the host. If this is wrong, the IPtables rules need to be adjusted!"
+sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostname) --dport 80 -j DNAT --to-destination $saraswati_ip_address:80
+sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostname) --dport 443 -j DNAT --to-destination $saraswati_ip_address:443
+echo "Installing iptables-persistent package, please answer the pop-up with 'Yes' to persist the currently created rules."
+echo "If the IP-Address or the ethernet device were wrong, manually adjust the rules and save them (refer to the ReadMe)."
+sudo apt install iptables-persistent -y
+# TODO (glost) Specify more.
+echo "Creating Auth and more docker containers"
+
+# TODO (glost) Move this up, all profiles needs to be set before
+#sudo lxc profile create saraswati-auth
+# TODO (glost) Test the pipe
+#wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
 sudo lxc exec saraswati -- su --login ubuntu

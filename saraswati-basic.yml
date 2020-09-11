@@ -1,6 +1,6 @@
 config:
   user.user-data: |
-    #cloud-config
+    #cloud-init
     apt:
       sources:
         docker:
@@ -23,20 +23,22 @@ config:
       - content: |
           #!/bin/bash
           modprobe shiftfs
+          echo "Installing latest sysbox docker runtime"
           latest_sysbox=$(curl --silent "https://api.github.com/repos/nestybox/sysbox/releases/latest" | grep -Po '"browser_download_url": "\K.*?focal.*?(?=")')
           curl -Lo /tmp/sysbox.deb $latest_sysbox
           apt install /tmp/sysbox.deb -y
           rm /tmp/sysbox.deb
           sed -i '/{/{s//{\n\    "default-runtime": "sysbox-runc",/;:p;n;bp}' /etc/docker/daemon.json
           systemctl restart docker
+          echo "Installing latest docker-compose"
           latest_compose=$(curl --silent "https://api.github.com/repos/docker/compose/releases/latest" | grep -Po '"browser_download_url": "\K.*?Linux-x86_64(?=")')
           curl -Lo /usr/local/bin/docker-compose $latest_compose
           chmod +x /usr/local/bin/docker-compose
-        path: /post_requirements.sh
+        path: /install_requirements.sh
         permissions: '0755'
     runcmd:
       - [ bash, /install_requirements.sh ]
-      - [ bash, -c, "rm /install_requirements.sh"]
+      - [ bash, -c, "rm /install_requirements.sh" ]
     package_reboot_if_required: true
-description: Profile for the saraswati vm, use in combination with the default profile
-name: saraswati-vm
+description: Profile for the saraswati vm, set up basic software and settings, use in combination with the default profile.
+name: saraswati-basic

@@ -1,0 +1,74 @@
+services:
+  app:
+    image: traefik:v2.2
+    runtime: runc
+    read_only: true
+    restart: unless-stopped
+    container_name: traefik.<REPLACE_DOMAIN>
+    ports:
+      - 80:80
+      - 443:443
+    command:
+      - --api.dashboard=true
+      - --global.sendanonymoususage=false
+      - --log.level=debug
+      - --providers.docker
+      - --providers.docker.endpoint=tcp://socket-proxy:2375
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=docker-net-proxy
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
+      - --entrypoints.websecure.http.tls.certresolver=letsencrypt
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      <REPLACE_LETSE>- --certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.letsencrypt.acme.email=<REPLACE_EMAIL>
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "traefik.enable=true"
+      # Dashboard & API
+      - "traefik.http.routers.traefik.rule=Host(`traefik.<REPLACE_DOMAIN>`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.middlewares=authelia@docker"
+      - "traefik.http.middlewares.compress.compress=true"
+    volumes:
+      # NOTE (glost) Needs to be created and permission changed to 600
+      - ${PWD}/mount/acme.json:/letsencrypt/acme.json
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    networks:
+      default:
+      proxy:
+
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy
+    runtime: runc
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    environment:
+      SERVICES: 1
+      NETWORKS: 1
+      CONTAINERS: 1
+      INFO: 1
+
+networks:
+  proxy:
+    external:
+      name: docker-net-proxy

@@ -1,0 +1,97 @@
+services:
+  app:
+    image: authelia/authelia
+    runtime: runc
+    container_name: authelia.<REPLACE_DOMAIN>
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.authelia.rule=Host(`authelia.<REPLACE_DOMAIN>`)'
+      - 'traefik.http.routers.authelia.entrypoints=websecure'
+      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia.<REPLACE_DOMAIN>:9091/api/verify?rd=https://authelia.<REPLACE_DOMAIN>'
+      - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
+      - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'
+    expose:
+      - 9091
+    environment:
+      - TZ=Europe/Berlin
+      - AUTHELIA_JWT_SECRET_FILE=/run/secrets/jwt
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session
+      - AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE=/run/secrets/postgres
+      #- AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE=/run/secrets/smtp
+      #- AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=/run/secrets/ldap
+    volumes:
+      - ${PWD}/config:/config
+    secrets:
+      - jwt
+      - session
+      - postgres
+      #- smtp
+      #- ldap
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    networks:
+      proxy:
+      default:
+
+  redis:
+    image: redis:alpine
+    runtime: runc
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - redis:/data
+    expose:
+      - 6379
+    environment:
+      - TZ=Europe/Berlin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    runtime: runc
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres
+      - POSTGRES_DB=authelia
+      - POSTGRES_USER=authelia
+    secrets:
+      - postgres
+
+networks:
+  proxy:
+    external:
+      name: docker-net-proxy
+volumes:
+  redis:
+  db:
+secrets:
+  jwt:
+    file: ${PWD}/secrets/jwt
+  session:
+    file: ${PWD}/secrets/session
+  postgres:
+    file: ${PWD}/secrets/postgres
+  #smtp:
+  #  file: /path/to/authelia/secrets/smtp
+  #ldap:
+  #  file: /path/to/authelia/secrets/ldap
