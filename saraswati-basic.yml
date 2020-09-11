@@ -1,6 +1,6 @@
 config:
   user.user-data: |
-    #cloud-init
+    #cloud-config
     apt:
       sources:
         docker:
