@@ -29,13 +29,14 @@ fi
 echo "Creating VM to host modules"
 sudo lxc profile create saraswati-basic
 wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
-sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false
+sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false -c limits.cpu=$(nproc) -c limits.memory=$(expr $(grep -Po "MemTotal:\s+\K[0-9]+" /proc/meminfo) - 2000000)
 echo "Waiting for the VM to configure itself and start..."
 while [[ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done" ]]; do
 sleep 10
 echo "Configuring..."
 done
 # TODO (glost) This regexes needs more testing!
+# TODO (glost) Static IP for container else this is for naught
 echo "Creating Iptables rules for accessing the VM from the Internet."
 saraswati_ip_address=$(sudo lxc info saraswati | grep -Po '[^docker]0:\sinet\s\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 saraswati_host_device=$(ip route get 176.9.93.198 | grep -Po 'dev\s\K[A-Za-z0-9]+(?=\s)')
@@ -52,4 +53,4 @@ echo "Creating Auth and more docker containers"
 # TODO (glost) Move this up, all profiles needs to be set before
 #sudo lxc profile create saraswati-auth
 # TODO (glost) Test the pipe
-sudo lxc exec --user 1000 saraswati -- bash -c "cd ~/saraswati/authentification ; bash config.sh "
+sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "
