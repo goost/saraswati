@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # dockerd start
+apk update && apk add openrc --no-cache
 rc-update add docker boot
 service docker start
 sleep 2
