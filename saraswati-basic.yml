@@ -14,11 +14,10 @@ config:
       - docker-ce
       - docker-ce-cli
       - containerd.io
-    groups:
-      - docker
-    system_info:
-      default_user:
-        groups: [docker]
+    growpart:
+      mode: auto
+      devices: ['/']
+      ignore_growroot_disabled: false
     write_files:
       - content: |
           #!/bin/bash
@@ -42,5 +41,10 @@ config:
       - [ bash, /install_requirements.sh ]
       - [ bash, -c, "rm /install_requirements.sh" ]
     package_reboot_if_required: true
+devices:
+  config:
+    source: cloud-init:config
+    type: disk
+    size: 248GB
 description: Profile for the saraswati vm, set up basic software and settings, use in combination with the default profile.
 name: saraswati-basic

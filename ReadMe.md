@@ -8,9 +8,9 @@ Computer Networks' learning modules. WORK IN PROGRESS - ALPHA STATE
   - [TL;DR](#tldr)
   - [Installation](#installation)
     - [0. Prerequisites](#0-prerequisites)
-    - [1. Initial setup](#1-initial-setup)
+    - [1. Setup](#1-setup)
       - [1.1 LXD](#11-lxd)
-      - [1.2 Authentification and Proxy](#12-authentification-and-proxy)
+      - [1.2 Containers](#12-containers)
 
 ## TL;DR
 
@@ -40,7 +40,7 @@ The usually risks of running scripts from the Internet apply.
   - In `/etc/sysctl.conf` IP4 forwarding must be enabled: `net.ipv4.ip_forward = 1`
   - Reload sysctl `sudo sysctl --system` if ipv4 forwarding was not enabled
 
-### 1. Initial setup
+### 1. Setup
 
 #### 1.1 LXD
 
@@ -56,9 +56,11 @@ The usually risks of running scripts from the Internet apply.
           - Script uses `sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default`
   2. Create a new profile `sudo lxc profile create saraswati-basic`
   3. Fill it with the contents of [saraswati-basic.yml](./saraswati-basic.yml) `sudo lxc profile edit saraswati-basic < saraswati-basic.yml`
-  4. Lauch a vm `sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false`
+     - Change the size of the disk if less than 250GB were allocated for the storage pool.
+  4. Lauch a vm, set the ressources accordingly. Assuming full CPUs and 2GB less RAM:
+     - `sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false -c limits.cpu=$(nproc) -c limits.memory=$(expr $(grep -Po "MemTotal:\s+\K[0-9]+" /proc/meminfo) - 2000000)`
   5. Wait for the VM to launch and configure itself
-     - `while [ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done"  ]; do sleep 10; echo "Configuring..."; done`
+     - `while [[ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done" ]]; do sleep 10; echo "Configuring..."; done`
   6. Setup iptables rules to redirect http and https traffic from the web to the vm
      1. `saraswati_ip_address=$(sudo lxc info saraswati | grep -Po '[^docker]0:\sinet\s\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')`
         - This regex may fail, what we want is the ipv4 address of the saraswati vm as shown by `sudo lxc info saraswati`
@@ -69,7 +71,7 @@ The usually risks of running scripts from the Internet apply.
      5. `sudo apt install iptables-persistent -y`, answer yes to have the rules saved automagically.
         - To save them manually, use `sudo bash -c "iptables-save -f /etc/iptables/rules.v4"`
 
-#### 1.2 Authentification and Proxy
+#### 1.2 Containers
 
-  1. `sudo lxc profile create saraswati-auth`
-  2. `sudo lxc profile edit saraswati-auth < saraswati-auth.yml`
+  1. Execute the configuration script inside the vm `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "`
+  2. Start the containers inside the vm `sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati/authentification/ ; bash startup.sh"`

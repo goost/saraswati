@@ -47,12 +47,7 @@ sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostna
 echo "Installing iptables-persistent package, please answer the pop-up with 'Yes' to persist the currently created rules."
 echo "If the IP-Address or the ethernet device were wrong, manually adjust the rules and save them (refer to the ReadMe)."
 sudo apt install iptables-persistent -y
-# TODO (glost) Specify more.
 echo "Creating Auth and modules containers..."
-
-# TODO (glost) Move this up, all profiles needs to be set before
-#sudo lxc profile create saraswati-auth
-# TODO (glost) Test the pipe
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "
 echo "Starting containers..."
-sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati/authentification/authelia"
+sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati/authentification/ ; bash startup.sh"
