@@ -45,6 +45,10 @@ devices:
   config:
     source: cloud-init:config
     type: disk
+  root:
+    path: /
+    pool: default
+    type: disk
     size: 248GB
 description: Profile for the saraswati vm, set up basic software and settings, use in combination with the default profile.
 name: saraswati-basic
