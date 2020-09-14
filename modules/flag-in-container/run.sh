@@ -1,0 +1,1 @@
+docker -it --rm modules/flag-in-container
