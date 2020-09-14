@@ -39,10 +39,13 @@ else
   letsencrypt_staging=''
 fi
 
+echo "Updating files with provided data..."
 #TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
 sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authelia/docker-compose.yml,authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" traefik/docker-compose.yml
+authelia_admin_pw=$(docker run --rm --runtime runc authelia/authelia authelia hash-password "$(generate_password 25)" | grep -Po "Password hash:\s\K.*$")
+sed -i "s/<REPLACE_ADMIN_PW>/$authelia_admin_pw/g" authelia/config/users_database.yml
 
 mkdir -p authelia/secrets
 echo $jwt_secret > authelia/secrets/jwt
@@ -53,4 +56,12 @@ mkdir -p traefik/mount
 touch traefik/mount/acme.json
 chmod 600 traefik/mount/acme.json
 
-docker network create docker-net-proxy
+echo "Creating docker network"
+docker network create docker-net-proxy > /dev/null
+
+echo "Configuration completed."
+echo "Admin username/password is:"
+echo "saraswati:"$authelia_admin_pw
+echo "Please remember this as they cannot be shown again!"
+echo "If you wish to change those or add additional users, please modify"
+echo "~/saraswati/authentification/authelia/config/user_database.yml"

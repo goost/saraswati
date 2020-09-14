@@ -7,9 +7,6 @@ port: 9091
 log_level: debug
 log_file_path: /config/authelia.log
 
-# TODO (glost) Check, if this is needed
-default_redirection_url: https://public.<REPLACE_DOMAIN>
-
 totp:
   issuer: <REPLACE_DOMAIN>
 
@@ -31,6 +28,9 @@ access_control:
     # Rules applied to everyone
     - domain: public.<REPLACE_DOMAIN>
       policy: bypass
+    - domain: traefik.<REPLACE_DOMAIN>
+      subject:
+        - "group:admins"
 
 session:
   name: authelia_session
@@ -54,3 +54,10 @@ storage:
     database: authelia
     username: authelia
     sslmode: disable
+
+notifier:
+    # TODO (glost) DEBUG PURPOSES
+    disable_startup_check: true
+    # For testing purpose, notifications can be sent in a file
+    filesystem:
+      filename: /config/notification.txt

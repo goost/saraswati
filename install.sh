@@ -36,7 +36,7 @@ sleep 10
 echo "Configuring..."
 done
 # TODO (glost) This regexes needs more testing!
-# TODO (glost) Static IP for container else this is for naught
+# TODO (glost) Static IP for container else this is for naught - isn't  it?
 echo "Creating Iptables rules for accessing the VM from the Internet."
 saraswati_ip_address=$(sudo lxc info saraswati | grep -Po '[^docker]0:\sinet\s\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 saraswati_host_device=$(ip route get 176.9.93.198 | grep -Po 'dev\s\K[A-Za-z0-9]+(?=\s)')
@@ -48,9 +48,11 @@ echo "Installing iptables-persistent package, please answer the pop-up with 'Yes
 echo "If the IP-Address or the ethernet device were wrong, manually adjust the rules and save them (refer to the ReadMe)."
 sudo apt install iptables-persistent -y
 # TODO (glost) Specify more.
-echo "Creating Auth and more docker containers"
+echo "Creating Auth and modules containers..."
 
 # TODO (glost) Move this up, all profiles needs to be set before
 #sudo lxc profile create saraswati-auth
 # TODO (glost) Test the pipe
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "
+echo "Starting containers..."
+sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati/authentification/authelia"

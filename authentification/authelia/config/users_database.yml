@@ -7,13 +7,10 @@
 # TODO (glost) 1) Choice of LDAP or this 2) Dynamic default user
 # List of users
 users:
-  authelia:
-    displayname: "Authelia User"
-    password: "$argon2id$v=19$m=1048576,t=1,p=8$TWZLRjF4UWdYd1kxUmFxeQ$3V6FRKYFbvKSatR7jpCSbcZveb2MlZZUFJB1QXDCGrI"
+  saraswati:
+    displayname: "Saraswati Admin"
+    password: "<REPLACE_ADMIN_PW>"
     email: <REPLACE_EMAIL>
     groups:
       - admins
       - dev
-  saraswati:
-    displayname: "Saraswati"
-    password: "$argon2id$v=19$m=1048576,t=1,p=8$TWZLRjF4UWdYd1kxUmFxeQ$3V6FRKYFbvKSatR7jpCSbcZveb2MlZZUFJB1QXDCGrI"
