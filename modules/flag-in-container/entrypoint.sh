@@ -1,5 +1,5 @@
 #!/bin/sh
 
-service docker start
-sleep 2
+dockerd > /var/log/dockerd.log 2>&1 &
+sleep 3
 exec $1

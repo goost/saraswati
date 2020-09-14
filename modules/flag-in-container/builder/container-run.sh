@@ -1,16 +1,12 @@
 #!/bin/sh
 
-# dockerd start
-apk update && apk add openrc --no-cache
-rc-update add docker boot
-service docker start
+dockerd > /var/log/dockerd.log 2>&1 &
 sleep 2
 
 # pull inner images
 cd /tmp
 docker build -t unsuspicious-image .
 
-service docker stop
 # dockerd cleanup (remove the .pid file as otherwise it prevents
 # dockerd from launching correctly inside sys container)
 kill $(cat /var/run/docker.pid)
