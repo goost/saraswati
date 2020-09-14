@@ -10,26 +10,31 @@ generate_password() {
 }
 
 set -e
-echo "Enter an eMail address for Let's Encrypt certificate generation."
-echo "(Only a minimal validity check is performed.)"
+echo "========================================================="
+echo "    Starting configuration of Saraswati Authentification containers."
+echo "========================================================="
+
+echo ">>> Enter an eMail address for Let's Encrypt certificate generation."
+echo ">>> (Only a minimal validity check is performed.)"
 read -e email_address
 jwt_secret="$(generate_password)"
 
 quick_email_regex="(.+)@(.+)\.(.+)"
 if [[ $email_address =~ $quick_email_regex ]] ; then
-    echo "Using email:" $email_address
+    echo ">>> Using email:" $email_address
 else
-    echo "The address should at least have a '@' and a domain at the end!\nPlease restart the configuration." >&2
+    echo ">>> The address should at least have a '@' and a domain at the end!\nPlease restart the configuration." >&2
     exit 1
 fi
-read -ep "Enter domain of server (proceed with 'example.com' if none provided): " domain
+echo ">>> Enter domain of server (proceed with 'example.com' if none provided): "
+read -e domain
 session_secret="$(generate_password)"
 
 if [[ $domain == "" ]]; then
   domain="example.com"
 fi
 
-read -ep "Configure as production environment (Y/n)? " production
+read -ep ">>> Configure as production environment (Y/n)? " production
 postgres_pw="$(generate_password)"
 
 if [[ $production != "n" ]]; then
@@ -39,13 +44,16 @@ else
   letsencrypt_staging=''
 fi
 
-echo "Updating files with provided data..."
+echo ">>> Updating files with provided data..."
 #TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
 sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authelia/docker-compose.yml,authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" traefik/docker-compose.yml
-authelia_admin_pw=$(docker run --rm --runtime runc authelia/authelia authelia hash-password "$(generate_password 25)" | grep -Po "Password hash:\s\K.*$")
-sed -i "s/<REPLACE_ADMIN_PW>/$authelia_admin_pw/g" authelia/config/users_database.yml
+authelia_admin_pw=$(generate_password 25)
+authelia_admin_pw_hash=$(docker run --rm --runtime runc authelia/authelia authelia hash-password "$authelia_admin_pw" | grep -Po "Password hash:\s\K.*$")
+#Source: https://unix.stackexchange.com/questions/486131/ask-sed-to-ignore-all-special-characters
+authelia_admin_pw_hash="$(<<< "$authelia_admin_pw" sed -e 's`[][\\/.*^$]`\\&`g')"
+sed -i "s/<REPLACE_ADMIN_PW>/$authelia_admin_pw_hash/g" authelia/config/users_database.yml
 
 mkdir -p authelia/secrets
 echo $jwt_secret > authelia/secrets/jwt
@@ -56,12 +64,12 @@ mkdir -p traefik/mount
 touch traefik/mount/acme.json
 chmod 600 traefik/mount/acme.json
 
-echo "Creating docker network"
+echo ">>> Creating docker network"
 docker network create docker-net-proxy > /dev/null
 
-echo "Configuration completed."
-echo "Admin username/password is:"
+echo ">>> Configuration completed."
+echo ">>> Admin username/password is:"
 echo "saraswati:"$authelia_admin_pw
-echo "Please remember this as they cannot be shown again!"
-echo "If you wish to change those or add additional users, please modify"
+echo ">>> Please remember this as they cannot be shown again!"
+echo ">>> If you wish to change those or add additional users, please modify"
 echo "~/saraswati/authentification/authelia/config/user_database.yml"

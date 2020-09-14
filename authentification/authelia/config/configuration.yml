@@ -24,13 +24,14 @@ authentication_backend:
 
 access_control:
   default_policy: one_factor
-  rules:
+  #rules:
     # Rules applied to everyone
-    - domain: public.<REPLACE_DOMAIN>
-      policy: bypass
-    - domain: traefik.<REPLACE_DOMAIN>
-      subject:
-        - "group:admins"
+    #- domain: public.<REPLACE_DOMAIN>
+    #  policy: bypass
+    # TODO (glost) Does not work /./
+    #- domain: traefik.<REPLACE_DOMAIN>
+    #  subject:
+    #    - "group:admins"
 
 session:
   name: authelia_session

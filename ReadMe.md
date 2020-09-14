@@ -16,8 +16,7 @@ Computer Networks' learning modules. WORK IN PROGRESS - ALPHA STATE
 
 Only latest Ubuntu is supported. Make sure your system is capable of virtualization (nested is not tested).
 The install scripts assumes a fresh but updated Ubuntu Minimal installation, executed as a non-root user.
-There need to be at least 250 GB available for the creation of the default storage pool.
-IP4 portwarding must be enabled (`sysctl -w net.ipv4.ip_forward=1`).
+There needs to be at least 250 GB of space available for the creation of the default storage pool.
 
 `wget -O- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh | bash`
 
