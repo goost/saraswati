@@ -6,7 +6,7 @@ do
   for dir in $(ls -d $PWD/*/)
   do
     cd $dir
-    docker-compose build --pull 2> /dev/null &&  docker-compose pull &&  docker-compose up -d
+    docker-compose build --pull 2> /dev/null &&  docker-compose pull 2> /dev/null & docker-compose up -d
   done
 done
 echo ">>> Done."

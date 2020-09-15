@@ -23,6 +23,7 @@ quick_email_regex="(.+)@(.+)\.(.+)"
 if [[ $email_address =~ $quick_email_regex ]] ; then
     echo ">>> Using email:" $email_address
 else
+    # TODO (glost) Loop instead of restart
     echo ">>> The address should at least have a '@' and a domain at the end!\nPlease restart the configuration." >&2
     exit 1
 fi
@@ -45,7 +46,7 @@ else
 fi
 
 echo ">>> Updating files with provided data..."
-#TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
+#TODO (glost) Proper TZ customization
 sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authentification/authelia/docker-compose.yml,authentification/authelia/config/configuration.yml,authentification/authelia/config/users_database.yml,authentification/traefik/docker-compose.yml,modules/flag-in-container/docker-compose.yml}
 sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authentification/authelia/config/configuration.yml,authentification/authelia/config/users_database.yml,authentification/traefik/docker-compose.yml}
 sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" authentification/traefik/docker-compose.yml
