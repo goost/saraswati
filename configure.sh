@@ -55,14 +55,14 @@ authelia_admin_pw_hash=$(docker run --rm --runtime runc authelia/authelia authel
 authelia_admin_pw_hash="$(<<< "$authelia_admin_pw_hash" sed -e 's`[][\\/.*^$]`\\&`g')"
 sed -i "s/<REPLACE_ADMIN_PW>/$authelia_admin_pw_hash/g" authentification/authelia/config/users_database.yml
 
-mkdir -p authelia/secrets
-echo $jwt_secret > authelia/secrets/jwt
-echo $session_secret > authelia/secrets/session
-echo $postgres_pw > authelia/secrets/postgres
+mkdir -p authentification/authelia/secrets
+echo $jwt_secret > authentification/authelia/secrets/jwt
+echo $session_secret > authentification/authelia/secrets/session
+echo $postgres_pw > authentification/authelia/secrets/postgres
 
-mkdir -p traefik/mount
-touch traefik/mount/acme.json
-chmod 600 traefik/mount/acme.json
+mkdir -p authentification/traefik/mount
+touch authentification/traefik/mount/acme.json
+chmod 600 authentification/traefik/mount/acme.json
 
 echo ">>> Creating docker network"
 docker network create docker-net-proxy > /dev/null
