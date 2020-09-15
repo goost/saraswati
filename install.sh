@@ -52,6 +52,9 @@ echo ">>> Installing iptables-persistent package, please answer the pop-up with 
 echo ">>> If the IP-Address or the ethernet device were wrong, manually adjust the rules and save them (refer to the ReadMe)."
 sudo apt install iptables-persistent -y
 echo ">>> Creating Auth and modules containers..."
-sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "
+sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash configure.sh "
 echo ">>> Starting containers..."
-sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash startup.sh"
+sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t ttyd-base . > /dev/null"
+sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash startup.sh"
+
+#docker build ttyd-base .

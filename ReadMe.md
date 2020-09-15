@@ -72,5 +72,6 @@ The usually risks of running scripts from the Internet apply.
 
 #### 1.2 Containers
 
-  1. Execute the configuration script inside the vm `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/authentification ; bash config.sh "`
-  2. Start the containers inside the vm `sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati/authentification/ ; bash startup.sh"`
+  1. Execute the configuration script inside the vm `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash configure.sh "`
+  2. `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t ttyd-base ."`
+  3. Start the containers inside the vm `sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati ; bash startup.sh"`

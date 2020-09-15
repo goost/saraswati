@@ -46,7 +46,7 @@ fi
 
 echo ">>> Updating files with provided data..."
 #TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
-sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authelia/docker-compose.yml,authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
+sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authentification/authelia/docker-compose.yml,authentification/authelia/config/configuration.yml,authentification/authelia/config/users_database.yml,authentification/traefik/docker-compose.yml,modules/flag-in-container/docker-compose.yml}
 sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
 sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" traefik/docker-compose.yml
 authelia_admin_pw=$(generate_password 25)
