@@ -10,9 +10,9 @@ generate_password() {
 }
 
 set -e
-echo "========================================================="
+echo "====================================================================="
 echo "    Starting configuration of Saraswati Authentification containers."
-echo "========================================================="
+echo "====================================================================="
 
 echo ">>> Enter an eMail address for Let's Encrypt certificate generation."
 echo ">>> (Only a minimal validity check is performed.)"
@@ -47,8 +47,8 @@ fi
 echo ">>> Updating files with provided data..."
 #TODO (glost) Proper TZ customization, extract secrets to docker secure file + ENV vars
 sed -i "s/<REPLACE_DOMAIN>/$domain/g" {authentification/authelia/docker-compose.yml,authentification/authelia/config/configuration.yml,authentification/authelia/config/users_database.yml,authentification/traefik/docker-compose.yml,modules/flag-in-container/docker-compose.yml}
-sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authelia/config/configuration.yml,authelia/config/users_database.yml,traefik/docker-compose.yml}
-sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" traefik/docker-compose.yml
+sed -i "s/<REPLACE_EMAIL>/$email_address/g" {authentification/authelia/config/configuration.yml,authentification/authelia/config/users_database.yml,authentification/traefik/docker-compose.yml}
+sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" authentification/traefik/docker-compose.yml
 authelia_admin_pw=$(generate_password 25)
 authelia_admin_pw_hash=$(docker run --rm --runtime runc authelia/authelia authelia hash-password "$authelia_admin_pw" | grep -Po "Password hash:\s\K.*$")
 #Source: https://unix.stackexchange.com/questions/486131/ask-sed-to-ignore-all-special-characters
