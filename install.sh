@@ -54,7 +54,7 @@ sudo apt install iptables-persistent -y
 echo ">>> Creating Auth and modules containers..."
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash configure.sh "
 echo ">>> Starting containers..."
-sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t ttyd-base . > /dev/null"
+sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t local/ttyd-base:latest . > /dev/null"
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash startup.sh"
 
 #docker build ttyd-base .
