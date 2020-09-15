@@ -52,7 +52,7 @@ sed -i "s/<REPLACE_LETSE>/$letsencrypt_staging/g" authentification/traefik/docke
 authelia_admin_pw=$(generate_password 25)
 authelia_admin_pw_hash=$(docker run --rm --runtime runc authelia/authelia authelia hash-password "$authelia_admin_pw" | grep -Po "Password hash:\s\K.*$")
 #Source: https://unix.stackexchange.com/questions/486131/ask-sed-to-ignore-all-special-characters
-authelia_admin_pw_hash="$(<<< "$authelia_admin_pw" sed -e 's`[][\\/.*^$]`\\&`g')"
+authelia_admin_pw_hash="$(<<< "$authelia_admin_pw_hash" sed -e 's`[][\\/.*^$]`\\&`g')"
 sed -i "s/<REPLACE_ADMIN_PW>/$authelia_admin_pw_hash/g" authentification/authelia/config/users_database.yml
 
 mkdir -p authelia/secrets
