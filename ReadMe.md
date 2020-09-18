@@ -16,7 +16,7 @@ Computer Networks' learning modules. WORK IN PROGRESS - ALPHA STATE
 
 Only latest Ubuntu is supported. Make sure your system is capable of virtualization (nested is not tested).
 The install scripts assumes a fresh but updated Ubuntu Minimal installation, executed as a non-root user.
-There needs to be at least 250 GB of space available for the creation of the default storage pool.
+There needs to be at least 6 GB of RAM installed.
 
 `wget -O- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh | bash`
 
@@ -52,7 +52,7 @@ The usually risks of running scripts from the Internet apply.
        2. `sudo snap install lxd`
        3. `sudo lxd init`
           - Choose approbiate settings, default ones if unsure. Keep in mind to allocate enough storage space for the VM to use later.
-          - Script uses `sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default`
+          - E.gb `sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default`
   2. Create a new profile `sudo lxc profile create saraswati-basic`
   3. Fill it with the contents of [saraswati-basic.yml](./saraswati-basic.yml) `sudo lxc profile edit saraswati-basic < saraswati-basic.yml`
      - Change the size of the disk if less than 250GB were allocated for the storage pool.

@@ -5,7 +5,7 @@ set -e
 # - Ubuntu minimal focal
 # - Fresh install, but up-to-date
 # - Running as non-root-user
-# - At least 250 GB of space for the storage pool.
+# - At least 6 GB of RAM
 # Afterwards:
 # - LXD will be installed, a VM will be running
 # - Docker will be installed in configured inside the VM, along with Sysbox.
@@ -21,8 +21,17 @@ echo ">>> Installing LXD..."
 sudo snap install lxd
 # TODO (glost) From which step exactly?
 lxd --version > /dev/null 2>&1 || bash -c 'echo ">>> Error during installation of LXD. Aborting, please proceed manually from the \"LXD\" step." ; exit 1'
-echo ">>> Initalizing LXD with default values and a ZFS storage pool of 250 GB..."
-sudo lxd init --auto --storage-backend zfs --storage-create-loop 250 --storage-pool default
+echo ">>> How big should the LXD pool size be (in GB, default is '250', VM uses it all)?:"
+read -e pool_size
+re_number='^[0-9]+$'
+if [[ ! $pool_size =~ $re_number  ]] ; then
+    #TODO (glost) Loop instead of setting default?
+    echo "Entered invalid pool_size, setting to default value of 250GB."
+    pool_size="250"
+fi
+echo ">>> Initalizing LXD with default values and a ZFS storage pool of $pool_size ..."
+sudo lxd init --auto --storage-backend zfs --storage-create-loop $pool_size --storage-pool default
+disk_size="$(expr $pool_size - 2)"GB
 sudo sysctl net.ipv4.ip_forward | grep -q 1
 if [[ $? -ne 0 ]] ; then
     sudo bash -c "echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-saraswati.conf"
@@ -33,6 +42,7 @@ fi
 echo ">>> Creating VM to host modules..."
 sudo lxc profile create saraswati-basic
 wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
+sudo lxc profile device set saraswati-basic root size $disk_size
 sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false -c limits.cpu=$(nproc) -c limits.memory=$(expr $(grep -Po "MemTotal:\s+\K[0-9]+" /proc/meminfo) - 2000000)kB
 echo ">>> Waiting for the VM to configure itself and start..."
 while [[ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done" ]]; do
