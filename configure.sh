@@ -16,7 +16,7 @@ echo "====================================================================="
 
 echo ">>> Enter an eMail address for Let's Encrypt certificate generation."
 echo ">>> (Only a minimal validity check is performed.)"
-read -e email_address
+read -ep "Enter the address: " email_address
 jwt_secret="$(generate_password)"
 
 quick_email_regex="(.+)@(.+)\.(.+)"
@@ -28,14 +28,14 @@ else
     exit 1
 fi
 echo ">>> Enter domain of server (proceed with 'example.com' if none provided): "
-read -e domain
+read -ep "Enter the domain: " domain
 session_secret="$(generate_password)"
 
 if [[ $domain == "" ]]; then
   domain="example.com"
 fi
 
-read -ep ">>> Configure as production environment (Y/n)? " production
+read -ep ">>> Configure as production environment (Y/n)?: " production
 postgres_pw="$(generate_password)"
 
 if [[ $production != "n" ]]; then
@@ -70,7 +70,9 @@ docker network create docker-net-proxy > /dev/null
 
 echo ">>> Configuration completed."
 echo ">>> Admin username/password is:"
+echo "==================================================="
 echo "saraswati:"$authelia_admin_pw
+echo "==================================================="
 echo ">>> Please remember this as they cannot be shown again!"
 echo ">>> If you wish to change those or add additional users, please modify"
 echo "~/saraswati/authentification/authelia/config/user_database.yml"

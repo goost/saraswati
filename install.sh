@@ -16,13 +16,16 @@ echo "========================================================="
 echo "    Starting installation of Saraswati."
 echo "    SUDO password needed for various installation steps."
 echo "========================================================="
+# TODO (glost) Make this all less noisy and quieter
+# TODO (glost) LXD comes with SNAP which comes with a hella of luggage. Use KVM directly?
+echo ">>> Installing needed packages..."
 sudo DEBIAN_FRONTEND=noninteractive apt update && sudo DEBIAN_FRONTEND=noninteractive apt install snapd wget iptables -y
 echo ">>> Installing LXD..."
 sudo snap install lxd
 # TODO (glost) From which step exactly?
 lxd --version > /dev/null 2>&1 || bash -c 'echo ">>> Error during installation of LXD. Aborting, please proceed manually from the \"LXD\" step." ; exit 1'
 echo ">>> How big should the LXD pool size be (in GB, default is '250', VM uses it all)?:"
-read -e pool_size
+read -ep "Enter the size: " pool_size
 re_number='^[0-9]+$'
 if [[ ! $pool_size =~ $re_number  ]] ; then
     #TODO (glost) Loop instead of setting default?
@@ -60,10 +63,12 @@ sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostna
 sudo iptables -t nat -I PREROUTING -i $saraswati_host_device  -p TCP -d $(hostname) --dport 443 -j DNAT --to-destination $saraswati_ip_address:443
 echo ">>> Installing iptables-persistent package, please answer the pop-up with 'Yes' to persist the currently created rules."
 echo ">>> If the IP-Address or the ethernet device were wrong, manually adjust the rules and save them (refer to the ReadMe)."
+read -ep "Press enter to continue..."
 sudo apt install iptables-persistent -y
 echo ">>> Creating Auth and modules containers..."
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash configure.sh "
 echo ">>> Starting containers..."
+# TODO (glost) Should be less noisy, else one misses the admin PW
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t local/ttyd-base:latest . > /dev/null"
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash startup.sh"
 

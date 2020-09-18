@@ -18,7 +18,7 @@ Only latest Ubuntu is supported. Make sure your system is capable of virtualizat
 The install scripts assumes a fresh but updated Ubuntu Minimal installation, executed as a non-root user.
 There needs to be at least 6 GB of RAM installed.
 
-`wget -O- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh | bash`
+`bash <(wget -O- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh)`
 
 This will install LXD, create a VM, populate it with needed programs and the available exercise modules.
 Ports 80 and 443 will be proxied to the created VM.
@@ -73,5 +73,5 @@ The usually risks of running scripts from the Internet apply.
 #### 1.2 Containers
 
   1. Execute the configuration script inside the vm `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash configure.sh "`
-  2. `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t ttyd-base ."`
+  2. Build the base image for the web shell `sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t ttyd-base ."`
   3. Start the containers inside the vm `sudo lxc exec saraswati -- su -l ubuntu -cd "~/saraswati ; bash startup.sh"`
