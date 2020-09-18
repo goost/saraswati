@@ -72,4 +72,4 @@ echo ">>> Starting containers..."
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati/ttyd-base ; docker build -t local/ttyd-base:latest . > /dev/null"
 sudo lxc exec saraswati -- su -l ubuntu -c "cd ~/saraswati ; bash startup.sh"
 
-#docker build ttyd-base .
+echo ">>> Saraswati initial installation is done. Have fun."
