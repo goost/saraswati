@@ -13,9 +13,10 @@ services:
       - builder
     container_name: dockerpr02.<REPLACE_DOMAIN>
     restart: unless-stopped
-    command: docker-compose -f /docker-compose.yml -p $(cat /dev/urandom | tr -dc a-zA-Z0-9 | head -c8) run webshell
-#    volumes:
-#      - ${PWD}/docker-compose.module.yml:/docker-compose.yml
+    command: sh /run.sh
+    volumes:
+      - ${PWD}/docker-compose.module.yml:/docker-compose.yml
+      - ${PWD}/run.sh:/run.sh
     security_opt:
       - no-new-privileges:true
     labels:
