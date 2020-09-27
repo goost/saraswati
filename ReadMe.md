@@ -15,7 +15,7 @@ Computer Networks' learning modules. WORK IN PROGRESS - ALPHA STATE
 ## TL;DR
 
 Only latest Ubuntu is supported. Make sure your system is capable of virtualization (nested is not tested).
-The install scripts assumes a fresh but updated Ubuntu Minimal installation, executed as a non-root user.
+The install script assumes a fresh but updated Ubuntu Minimal installation, executed as a non-root user.
 There needs to be at least 6 GB of RAM installed.
 
 `bash <(wget -O- https://raw.githubusercontent.com/goost/saraswati/develop/install.sh)`

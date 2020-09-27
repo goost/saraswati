@@ -6,7 +6,7 @@ do
   for dir in $(ls -d $PWD/*/)
   do
     cd $dir
-    echo "Starting ${PWD##*/}"
+    echo ">>> Starting ${PWD##*/}..."
     docker-compose build --pull > /dev/null 2>&1 ;  docker-compose pull > /dev/null 2>&1 ; docker-compose up -d > /dev/null 2>&1
   done
 done

@@ -1,0 +1,12 @@
+services:
+  webshell:
+    restart: "no"
+    image: modules/getting-at-the-door
+    depends_on:
+      - getter
+
+  getter:
+    image: alpine
+    runtime: runc
+    restart: "no"
+    entrypoint: ['sh', '-c', 'while true ; do wget -O- webshell:4296/?flag[3x73rn4l_kn0ck!ng] ; sleep 5 ; done']

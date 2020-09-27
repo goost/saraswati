@@ -3,7 +3,7 @@
 dockerd > /var/log/dockerd.log 2>&1 &
 sleep 2
 
-# Build container in sysbox container
+# pull inner images
 cd /tmp
 docker build -t unsuspicious-image .
 

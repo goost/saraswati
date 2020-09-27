@@ -2,25 +2,27 @@ services:
   builder:
     build: .
     restart: "no"
-    image: modules/flag-in-container
+    image: modules/getting-at-the-door
     entrypoint: ["sh","-c", "exit 0"]
 
   app:
     image: local/ttyd-base:latest
+    read_only: true
     runtime: runc
     depends_on:
       - builder
-    container_name: fic.<REPLACE_DOMAIN>
+    container_name: dockerpr02.<REPLACE_DOMAIN>
     restart: unless-stopped
-    #TODO (Glost) Harder the container further (e.g no new priviliges)
-    command: docker run -it --rm modules/flag-in-container
+    command: docker-compose -f /docker-compose.yml -p $(cat /dev/urandom | tr -dc a-zA-Z0-9 | head -c8) run webshell
+#    volumes:
+#      - ${PWD}/docker-compose.module.yml:/docker-compose.yml
     security_opt:
       - no-new-privileges:true
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.fic.rule=Host(`fic.<REPLACE_DOMAIN>`)'
-      - 'traefik.http.routers.fic.entrypoints=websecure'
-      - 'traefik.http.routers.fic.middlewares=authelia@docker'
+      - 'traefik.http.routers.dockerpr02.rule=Host(`dockerpr02.<REPLACE_DOMAIN>`)'
+      - 'traefik.http.routers.dockerpr02.entrypoints=websecure'
+      - 'traefik.http.routers.dockerpr02.middlewares=authelia@docker'
     expose:
       - 4242
     volumes:

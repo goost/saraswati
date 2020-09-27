@@ -47,7 +47,7 @@ sudo lxc profile create saraswati-basic
 wget -qO- https://raw.githubusercontent.com/goost/saraswati/develop/saraswati-basic.yml | sudo lxc profile edit saraswati-basic
 sudo lxc profile device set saraswati-basic root size $disk_size
 sudo lxc launch images:ubuntu/focal/cloud saraswati -p default -p saraswati-basic --vm -c security.secureboot=false -c limits.cpu=$(nproc) -c limits.memory=$(expr $(grep -Po "MemTotal:\s+\K[0-9]+" /proc/meminfo) - 2000000)kB
-echo ">>> Waiting for the VM to configure itself and start..."
+echo ">>> Waiting for the VM to configure itself and restart..."
 while [[ "$(sudo lxc exec saraswati -- cloud-init status 2>&1)" != "status: done" ]]; do
 sleep 10
 echo ">>> Configuring..."
