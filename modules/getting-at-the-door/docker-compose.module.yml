@@ -2,6 +2,7 @@ services:
   webshell:
     restart: "no"
     image: modules/getting-at-the-door
+    entrypoint: ['tail', '-f', '/dev/null']
     depends_on:
       - getter
 

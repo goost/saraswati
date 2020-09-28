@@ -14,9 +14,6 @@ services:
     container_name: dockerpr02.<REPLACE_DOMAIN>
     restart: unless-stopped
     command: sh /run.sh
-    volumes:
-      - ${PWD}/docker-compose.module.yml:/docker-compose.yml
-      - ${PWD}/run.sh:/run.sh
     security_opt:
       - no-new-privileges:true
     labels:
@@ -28,6 +25,9 @@ services:
       - 4242
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${PWD}/run.sh:/run.sh
+    # TODO (glost) Why oh why does it not accept a mounted compose file?
+    tmpfs: /tmp
     logging:
       driver: "json-file"
       options:

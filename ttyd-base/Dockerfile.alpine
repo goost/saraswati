@@ -1,0 +1,12 @@
+FROM docker
+
+# TODO (glost) Latest compose tag
+RUN latest_ttyd=$(wget -qO- "https://api.github.com/repos/tsl0922/ttyd/releases/latest" | grep -E 'browser_download_url":\s".*?ttyd_linux.x86_64' | cut -f 2,3 -d ':' | cut -f 2 -d '"') \
+  && wget -O /usr/bin/ttyd $latest_ttyd \
+  && chmod +x /usr/bin/ttyd \
+  && apk -U add libbz2 expat libffi gdbm xz-libs readline sqlite-libs python3 py3-ordered-set py3-appdirs py3-parsing py3-six py3-packaging py3-setuptools dockerpy-creds py3-cparser py3-cffi py3-idna py3-asn1crypto py3-cryptography py3-ipaddress py3-chardet py3-certifi py3-urllib3 py3-requests py3-websocket-client docker-py py3-cached-property py3-dockerpty py3-docopt py3-more-itertools py3-zipp py3-importlib-metadata py3-pyrsistent py3-attrs py3-jsonschema py3-asn1 py3-bcrypt py3-pynacl py3-paramiko py3-pysocks py3-texttable yaml py3-yaml \
+  #&& wget "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -O /usr/bin/docker-compose \
+  && wget -O /usr/bin/docker-compose "https://github.com/docker/compose/releases/download/1.27.4/run.sh" \
+  && chmod +x /usr/bin/docker-compose
+
+ENTRYPOINT [ "/usr/bin/ttyd", "-p", "4242" ]
